@@ -3,26 +3,15 @@
     <modelIdentification>
         <name>Transfer of Modelling Responsibility FOM Module</name>
         <type>FOM</type>
-        <version>1.1.4</version>
-        <modificationDate>2019-06-13</modificationDate>
-        <securityClassification>Unclassified</securityClassification>
+        <version>2.0 RC1</version>
+        <modificationDate>2019-06-16</modificationDate>
+        <securityClassification>Not Classified</securityClassification>
         <purpose>Protocol for Transfer of Modelling Responsilbility</purpose>
         <applicationDomain>Training</applicationDomain>
         <description>Transfer of Modelling Responsibility FOM Module</description>
         <useLimitation>NA</useLimitation>
-        <useHistory>v1.0.1
-- XML Schema Reference Changed </useHistory>
-        <useHistory>v1.0.2 - Spelling correction at enumerations</useHistory>
-        <useHistory>v1.0.3 - Adding AttributeValues</useHistory>
-        <useHistory>v1.0.3r3 - Adding reason</useHistory>
-        <useHistory>v1.0.3r4 - Added parameter Respondent at interaction TMR_OfferTransferModellingResponsibility and enumeration value NoofferReasonEnum32.OwnershipStateNotApplicableWithRequest</useHistory>
-        <useHistory>v1.0.3r5 - Added enumeration value NoofferReasonEnum32.EntityNotKnown</useHistory>
-        <useHistory>V1.0.3r6 - Change definition of data type TransactionId, a counter and the federate handle</useHistory>
-        <useHistory>v1.1.0r1 - Added interactions TMR_CancelRequest and TMR_Status</useHistory>
-        <useHistory>v1.1.0 - Removed "r1" from module name</useHistory>
-        <useHistory>v1.1.1 - Update of Dependecy table</useHistory>
-        <useHistory>v1.1.2 - Rename of enumeration values (AttributeSetTooRestricted, AttributeSetTooExtensive).</useHistory>
-        <useHistory>v1.1.3 - Rename of enumeration value (FederateTooBusy).</useHistory>
+        <useHistory>v1.1.3 - Released version part of NETN-FOM v2.0 in AMSP-04 Ed A.</useHistory>
+        <useHistory>v2.0.0 - Released version part of NETN-FOM v3.0 in AMSP-04 Ed B.</useHistory>
         <poc>
             <pocType>Primary author</pocType>
             <pocName>Lennart Olsson</pocName>
@@ -41,7 +30,11 @@
             <type>Dependency</type>
             <identification>NETN-Base</identification>
         </reference>
-        <other>NA</other>
+        <other>
+Copyright © 2019 by NATO/OTAN. All rights reserved.
+This work is licensed under a Creative Commons Attribution-NoDerivatives 4.0 International License.
+
+Above license gives you the right to use and redistribute the NETN FOM Module (XML file and Documentation) in its entirety without modification. You are also allowed to develop your own new FOM Modules (in separate XML files and separate documentation) that build-on/extends the NETN module by reference. You are NOT allowed to modify the NETN FOM Module or its documentation without prior permission by the NATO Modelling and Simulation Group.</other>
     </modelIdentification>
     <interactions>
         <interactionClass>
