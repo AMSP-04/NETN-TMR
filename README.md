@@ -1,6 +1,15 @@
 # NETN-TMR
 NATO Education and Training Network (NETN) Transfer of Modelling Responsibilities (TMR) Module
 
+## Introduction
+The type of control of entities in a federation can be of two kinds, entity control and attribute modelling responsibility. A federate with entity control, controls the actions and behaviour of simulated entities. A federate with attribute modelling responsibility, updates a set of attributes at simulated entities. 
+
+## Purpose
+
+The TMR pattern is used to transfer modelling responsibility between federates. The reason for transfer of modelling responsibility can be to get the most suitable model do the updating of the attributes that covers the capability and characteristic of simulated entities. The TMR pattern can also be used for fault management, load balancing and multi resolutions models; such as aggregation and disaggregation, movement behaviour models, and damage assessment.
+
+The transfer of ownership can be triggered either from an external source or by the requesting federate. The pattern has methods both for acquiring and divesting of instance attribute ownership. There is a correlation between TMR interactions and HLA Ownership services to ensure that the expected federates are involved in the transfer.
+
 
 ## License
 
