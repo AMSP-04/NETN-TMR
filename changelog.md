@@ -11,6 +11,9 @@
 * ´useHistory´ cleared to only contail formally relesed versions v1.1.3 and upcoming v2.0.0
 * ´other´ changed to include licencing information
 
+#### NETN-TMR#4 Update Introduction documentation
+* Introduction section restructured and clarified.
+
 ### Changes for v1.1.3
 
 v1.0.1 XML Schema Reference Changed
