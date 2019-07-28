@@ -231,7 +231,7 @@ Response->>Request:TMR_OfferTransferOfModellingResponsibility(isOffering=True)
 
 group HLA Services
 
-Response->>RTI: AttributeOwnershipAcquisition()
+Response->>RTI: attributeOwnershipAcquisition()
 RTI->>Request: requestAttributeOwnershipRelease()
 Request->>RTI: updateAttributeValues()
 RTI->>Response: reflectAttributeValues()
