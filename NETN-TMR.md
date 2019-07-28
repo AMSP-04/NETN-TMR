@@ -1,15 +1,28 @@
 # NETN-TMR
 
+The NATO Education and Training Network (NETN) Transfer of Modelling Responsibilities (TMR) FOM Module.
+
 Copyright (C) 2019 NATO/OTAN.
 This work is licensed under a [Creative Commons Attribution-NoDerivatives 4.0 International License](LICENSE.md).
 
 ## Introduction
 
-The type of control of entities in a federation can be of two kinds, entity control and attribute modelling responsibility. A federate with entity control, controls the actions and behaviour of simulated entities. A federate with attribute modelling responsibility, updates a set of attributes at simulated entities. 
+In a federated distributed simulation the participating systems (federates) collectively model the synthetic environment. Allocation of modelling responsibilities are based on individual federate capabilities, federation design agreements, and initial scenario conditions. The update of an attribute for a specific simulated entity is allocated to at most one federate. 
+However, during execution the modelling responsibility may change and the ownership of responsibility can be transferred. Basic services for the divestiture and acquisition of attribute ownership is provided by IEEE 1516 High Level Architecture (HLA).
+
+A negotiated and coordinated transfer of modelling responsibilities requires agreements between federates before attribute ownership is transferred. 
+
+The NATO Education and Training Network Transfer of Modelling Responsibilities (NETN-TMR) FOM Module is a specification of how to transfer attribute modelling responsibility between federates in a distributed simulation. 
+
+The specification is based on IEEE 1516 High Level Architecture (HLA) Object Model Template (OMT) and primarily intended to support interoperability in a federated simulation (federation) based on HLA. A Federation Object Model (FOM) Module is used to specify how data is represented and exchanged in the federation. The NETN-TMR FOM module is available as an XML file for use in HLA based federations.
 
 ### Purpose
 
-The NETN-TMR FOM module is used to transfer attribute modelling responsibility between federates. A transfer is perfomed to dynamically change responsibility to a more suitable federate.
+The NETN-TMR FOM module provides a standard interface and protocol for conducting negotiated and coordinated transfer of attribute modelling responsibility between federates. It extends the HLA Ownership Management services by providing the means to 
+1. Negotiate the transfer of ownership. 
+2. Initiate ownership transfer using a triggering federate.
+
+A transfer of modelling responsibility is perfomed during runtime, to dynamically change the responsibility to update specific attributes, to a more suitable federate.
 
 For example: 
 - Transfer from a Live to a Virtual or Constructive simulation
@@ -18,150 +31,263 @@ For example:
 - Transfer to allow backup, maintenance or load-balancing
 - Transfer of certain attributes to functional models such as movement, damage assessment etc.
 
-
 ### Scope
 
-The transfer of ownership can be triggered either from an external source or by the requesting federate. The pattern has methods both for acquiring and divesting of instance attribute ownership. There is a correlation between TMR interactions and HLA Ownership services to ensure that the expected federates are involved in the transfer.
+NETN-TMR covers the following cases:
 
-## Overview
+* Negotiated acquisition where a federate requests to receive the modelling responsibility 
+* Acquisition without negotiation where a federate receives the modelling responsibility 
+* Negotiated divestiture where a federate requests another federate to take modelling responsibility
+* Cancellation of transfer
 
-### TMR Interactions and HLA Services
-The TMR pattern defines five TMR interactions:
-a.	Initiate;
-b.	Request;
-c.	Offer;
-d.	Cancel Request; and
-e.	Transfer Result.
 
-The TMR pattern incorporates four RTIambassador HLA Ownership Management services:
-a.	Attribute Ownership Acquisition (when negotiation);
-b.	Attribute Ownership Acquisition If Available (without negotiation);
-c.	Attribute Ownership Divesture If Wanted; and
-d.	Cancel Attribute Ownership Acquisition.
+## Transfer of Modelling Responsibilities Pattern
 
-The TMR pattern incorporates four FederateAmbassador (callbacks) HLA Ownership Management services:
-a.	Request Attribute Ownership Release †;
-b.	Attribute Ownership Acquisition Notification †;
-c.	Confirm Attribute Ownership Acquisition Cancellation †; and
-d.	Attribute OwnershipUnavailable †.
+TMR uses a combination of interactions and HLA Owenrship Management services to negotiate and perform a coordinated transfer of attribute ownership. The pattern includes a triggering interaction (optional) to initiate transfer and interactions for requesting, offering, cancelling and sending results of a completed transfer.
+
+### TMR Interaction Classes
+<img src="./images/interactionclasses.png" width="700px"/>
+
+**Figure: TMR Interaction Classes**
+
+#### TMR (Root)
+
+The `TMR` interaction class provide a set of basic paramaters used in all TMR interactions in order to uniquly identify and direct TMR transactions between participating federates.
+
+|Parameter|Description|
+|---|---|
+|TransactionID|The TransactionID is a unique reference to a specific execution of a TMR pattern. It consists of a two values, a Counter and a Federate Handle. The Transaction ID is also encoded and used as the User Supplied Tag in the HLA Ownership services to allow a correlation between the TMR interactions and HLA Ownership services. The Transaction ID is generated by a trigger federate or, if no trigger federate is used, directly by the requesting federate. The Transaction ID is then used through the TMR pattern.|
+|RequestFederate|A Federate Name specifying the federate that makes the request for the transfer.|
+|ResponseFederate|A Federate Name specifying the federate that is the responding federat.|
+
+
+#### TMR_RequestTransferModellingResponsibility
+A `TMR_RequestTransferModellingResponsibility` interaction is sent from the requesting federate to the responding federate. If the request is the result of a `TMR_InitiateTransferModellingResponsibility` interaction, the parameters from that interaction shall be copied and used in the request.
+
+|Parameter|Description|
+|---|---|
+|TransferType|An enumerated value that indicates the direction of the transfer on the ownership and whether there shall be any negotiation: `Acquire` = Requesting Federate acquires instance attribute ownership from the Responding Federate (current owner), `Divest` = Requesting Federate (current owner) releases instance attribute ownership to Responding Federate and `AcquireWithoutNegotiating` = Requesting Federate acquires unowned instance attributes.|
+|Instances| A set of references to NETN entities. Reference is done by using NETN UniqueId (UUID).|
+|Attributes|The common set of attributes for all referennced instances to be included in the transfer. Attributes are referenced by attribute name.|
+|CapabilityType|Optional. An enumerated value that specifies the capability type that the transfer is about. The usage of this is optional with a default value of Other. Some federates may be dependent on a value other than Other. There shall be a correspondence between the capability type and the set of attributes. Enumerated values: `Total` = Intersection of published attributes of the object class at the acquiring and divesting federate, `Movement` = e.g. Spatial, PowerPlantOn, etc., `Damage` = e.g. DamageState, Immobilized, etc., `Resource Consumption`, `Other`.|
+|InstanceAttributeValues|Optional parameter, default value is an empty array. Shall be used when acquiring federate is unaware of current instance attribute values, e.g. re-entering federates.|
+
+
+
+#### TMR_OfferTransferModellingResponsibility
+An `TMR_OfferTransferModellingResponsibility` is sent from the responding federate to the requesting federate. If a transfer is initiated from an external source trigger federate, the requesting federate will also send a `TMR_OfferTransferModellingResponsibility` to the trigger federate as a response to a `TMR_InitateTransferModellingResponsibility` interaction as a confirmation of the trigger. 
+
+**Special Case**:
+When the transfer type is Divesting, the delivery order of the interaction `TMR_OfferTransferModellingResponsibility` and the HLA ownership callback service `requestAttributeOwnershipRelease` at the receiving federate is not determined. Due to this, receiving a `requestAttributeOwnershipRelease` callback should be treated in the same way as receiving a `TMR_OfferTransferModellingResponsibility` with a positive offer. The user supplied tag in the callback contains the `TransactionID` which identifies a specific transfer process.
+
+|Parameter|Description|
+|---|---|
+|isOffering|True if and only if for all instances all attributes in the request are offered. False if for any instance any attribute in the request is not offered.|
+|Respondent|Shall specify the sender of the offer interaction using the Federate Name.|
+|Reason|Optional. An enumerated value that shall specify the reason for a negative offer: `Other`, `CapabilityDoesNotMatch`, `AttributeSetTooRestricted`, `AttributeSetTooExtensive`, `FederateTooBusy`, `AttributeSetNotCompatibleWithPublication`, `OwnershipStateNotApplicableWithRequest`, `EntityNotKnown`. Default value = `Other`.  |
+
+#### TMR_InitiateTransferModellingResponsibility
+
+A `TMR_InitiateTransferModellingResponsibility` is sent by a triggering federate to initiate a TMR request. 
+
+|Parameter|Description|
+|---|---|
+|Initiating|The Initiating parameter shall specify the originator of the interaction, e.g. the value may be the federate name or the Callsign for the role possessor.
+
+All other parameters are equivalent to those in `TMR_RequestTransferModellingResponsibility` with the same definition as described above. These parameters should be copied and used by the requesting federate in a subsequent `TMR_RequestTransferModellingResponsibility` interaction.
+
+#### TMR_CancelRequest
+A `TMR_CancelRequest` is sent by the Requesting Federate to cancel a request.
+
+|Parameter|Description|
+|---|---|
+|Reason|An enumerated value that describes the reason for the cancellation: `Other` = When a Requesting Federate for some reason except time out decides not to complete a transfer. `TimeOut` =	When a model's time limit for receiving a TMR offer has passed.|
+
+#### TMR_TransferResult
+A `TMR_TransferResult` is sent by a Requesting Federate to a federate that initiated the TMR by sending a `TMR_InitiateTransferModellingResponsibility`.
+
+|Parameter|Description|
+|---|---|
+|TransferOk|A Boolean value indicating the result of the transfer. TRUE = Transfer Successful.|
+
+### HLA Ownership Management Services
+
+The HLA Ownership Management services used in TMR (callbacks marked with †) are:
+
+* Attribute Ownership Acquisition (when negotiation)
+* Attribute Ownership Acquisition If Available (without negotiation)
+* Attribute Ownership Divesture If Wanted
+* Cancel Attribute Ownership Acquisition
+* Request Attribute Ownership Release †
+* Attribute Ownership Acquisition Notification †
+* Confirm Attribute Ownership Acquisition Cancellation †
+* Attribute OwnershipUnavailable †
+
+### TMR Basic Pattern
+
+<img src="./images/pattern.svg" width="700px"/>
+
+<!---
+participant Trigger
+participant Request
+participant Response
+
+autonumber 
+opt if initiated by trigger
+Trigger ->> Request:TMR_InitiateTransferOfModellingResponsibility(TransactionId)
+Request ->> Trigger:TMR_OfferTransferOfModellingResponsibility(TransactionId)
+end
+
+opt TransactionType = Acquire or Divest
+Request ->> Response:TMR_RequestTransferOfModellingResponsibility(TransactionId)
+
+Response->>Request:TMR_OfferTransferOfModellingResponsibility(TransactionId)
+
+end
+
+
+group HLA Services
+abox over Request, Response:HLA Object and Ownership Management Services\n(UserSuppliedTag = TransactionId)
+end
+
+
+opt if initiated by trigger
+Trigger <<- Request:TMR_TransferResults(TransactionId)
+end
+
+autonumber off
+--->
+
+**Figure: Basic TMR Pattern**
+
+1. To trigger a TMR request, a `TMR_InitiateTransferOfModellingResponsibility` can be sent from a triggering federate to a federate intended to issue a TMR request. Included in the parameteras are type of the transfer, and detail regarding attributes involved in the transfer. This step is optional.
+2. If initiated by a trigger, the request federate sends a `TMR_OfferTransferOfModellingResponsibility` to the triggering federate to indicate if the transfer request can be issued or not. 
+3. A federate requesting a transfer of modelling responsibility sends a `TMR_RequestTransferOfModellingResponsibility` interaction. Included in the parameteras are type of the transfer, and detail regarding attributes involved in the transfer. There are three types of transfer that can be requested `Acquire`, `Divest` or `AcquireWithoutNegotiating`. The requesting federate specifies the transfer type in the `TransferType` parameter.
+4. A federate responding to the request makes an offer by sending a `TMR_OfferTransferOfModellingResponsibility` interaction. Based on the offer the requesting federate can choose to start the transfer using HLA Ownership service.
+    - Before divesting instance attributes, the attributes shall be updated (HLA service Update Attribute Values).
+    After acquisition of instance attributes, the attributes shall be updated (HLA service Update Attribute Values).
+    - A Transaction ID is encoded and used as the User Supplied Tag in the HLA Ownership services.
+5. If initiated by a trigger, the result of the transfer is sent using a `TMR_TransferResults` to the triggering federate.
+
+
+## Use Cases
+A number of different cases are described with sequence diagrams.
+
+### Negotiated acquisition
  
-Figure 5-1: The Interaction Classes in TMR FOM Module.
 
-## TMR PATTERN USAGE
+The requesting federate initiates the transfer to acquire instance attributes. Transfer is completed successfully.
 
-### TMR Pattern Rules
-1.	Before divesting instance attributes, the attributes shall be updated (HLA service Update Attribute Values).
-2.	After acquisition of instance attributes, the attributes shall be updated (HLA service Update Attribute Values).
+<img src="./images/acquireok.svg" width="700px"/>
 
-### Transfer Type
-The type of the transfer can be Acquire, Divest or AcquireWithoutNegotiating. The requesting federate specifies the transfer type or if the transfer process is triggered from outside, the initiating interaction specifies the transfer type.
+<!---
+participant Request
+participant Response
+participant RTI
 
-### TMR Interactions
+autonumber 
 
-#### Interaction: TMR
-1.	The super interaction, containing parameters for use in its specializations.
-Parameter: TMR.TransactionID
-2.	A structure with two fields, Counter and Federate Handle. The Transaction ID should, where possible, be encoded and used as the User Supplied Tag in the HLA Ownership services to get a correlation between the TMR interactions and HLA Ownership services.
-3.	When the transfer is initiated from an external source, the external source shall specify the Transaction ID and this shall then be used through the process. When the transfer is initiated by the requesting federate, the requesting federate shall specify the Transaction ID and this shall then be used through the process.
-Parameter: TMR.RequestFederate
-4.	The Federate Name shall specify the federate that makes the request for the transfer.
-Parameter: TMR.ResponseFederate
-5.	The Federate Name shall specify the federate that is the responding federate.
 
-#### Interaction: TMR_RequestTransferModellingResponsibility
-1.	Request Transfer Modelling Responsibility shall be sent from the requesting federate to the responding federate, these federates are specified in the inherited parameters from the super interaction. If the request is the result of a TMR_Initiate
-TransferModellingResponsibility interaction, the parameters from that interaction shall be copied and used in the request.
-Parameter: RequestTransferModellingResponsibility.TransferType
-2.	An enumerated value that shall indicate the direction of the transfer on the ownership and whether there shall be any negotiation:
-Acquire
-a.	Requesting Federate acquires instance attribute ownership from the Responding Federate (current owner).
-Divest
-a.	Requesting Federate (current owner) releases instance attribute ownership to Responding Federate.
-AcquireWithoutNegotiating
-a.	Requesting Federate acquires unowned instance attributes.
-Parameter: RequestTransferModellingResponsibility.Instances
-3.	The Instances parameter shall specify the instances in the transfer collected in an array. The UniqueId attribute (UUID) is used for entity reference. The UniqueId attribute is defined in NETN object classes.
-Parameter: RequestTransferModellingResponsibility.Attributes
-4.	The Attributes parameter shall specify the common set of attributes for all instances that shall be involved in the transfer. The set is collected in an array. An attribute shall be specified by the attribute name.
-Parameter: RequestTransferModellingResponsibility.CapabilityType
-5.	The CapabilityType is an enumerated value and shall specify the capability type that the transfer is about. The usage of this is optional with a default value of Other. Some federates may be dependent on a value other than Other. There shall be a correspondence between the capability type and the set of attributes.
-6.	Enumerated values:
-Total
-a.	Intersection of published attributes of the object class at the acquiring and divesting federate.
-Movement
-a.	E.g. Spatial, PowerPlantOn, etc.
-Damage
-a.	E.g. DamageState, Immobilized, etc.
-Resource Consumption
-Other
-Parameter: RequestTransferModellingResponsibility.InstanceAttributeValues
-7.	Optional parameter, default value is an empty array. Shall be used when acquiring federate is unaware of current instance attribute values, e.g. re-entering federates.
+Request ->> Response:TMR_RequestTransferOfModellingResponsibility(TransferType=Acuire)
 
-#### Interaction: TMR_OfferTransferModellingResponsibility
-1.	Offer Transfer Modelling Responsibility shall be sent from the responding federate to the requesting federate; these federates are specified in the inherited parameters from the super interaction. If the transfer is initiated from an external source, with the interaction TMR_InitateTransferModellingResponsibility, the requesting federate shall respond with TMR_OfferTransferModellingResponsibility to inform the originator of the intention of the initiate.
-Special Case:
-2.	When the transfer type is Divesting, the delivery order of the interaction TMR_OfferTransferModellingResponsibility and the HLA ownership callback service requestAttributeOwnershipRelease at the receiving federate is not determined. Due to this, receiving a requestAttributeOwnershipRelease callback should be treated in the same way as receiving a TMR_OfferTransferModellingResponsibility with a positive offer.
-3.	The user supplied tag in the callback service contains the transaction identification which identifies a specific transfer process.
-Parameter: OfferTransferModellingResponsibility.isOffering
-4.	Definition of the parameter values:
-True
-a.	If and only if for all instances all attributes in the request are offered.
-False
-a.	If for any instance any attribute in the request is not offered.
-Parameter: OfferTransferModellingResponsibility.Respondent
-5.	Shall specify the sender of the offer interaction using the Federate Name.
-Parameter: OfferTransferModellingResponsibility.Reason
-6.	An enumerated value that shall specify the reason for a negative offer:
-a.	Other.
-b.	CapabilityDoesNotMatch.
-c.	AttributeSetTooRestricted.
-d.	AttributeSetTooExtensive.
-e.	FederateTooBusy.
-f.	AttributeSetNotCompatibleWithPublication.
-g.	OwnershipStateNotApplicableWithRequest.
-h.	EntityNotKnown.
-7.	The usage is optional with a default value of Other.
+Response->>Request:TMR_OfferTransferOfModellingResponsibility(isOffering=True)
 
-#### Interaction: TMR_InitiateTransferModellingResponsibility
-1.	This interaction shall trigger the requesting federate to do the request for modelling responsibility transfer.
-Parameter: TMR_InitiateTransferModellingResponsibility.Initiating
-2.	The Initiating parameter shall specify the originator of the interaction, e.g. the value may be the federate name or the Callsign for the role possessor.
-3.	Other parameters shall be used by the Requesting Federate in the request interaction.
-Parameter: TMR_InitiateTransferModellingResponsibility.TransferType
-4.	See Parameter: RequestTransferModellingResponsibility.TransferType.
-Parameter: TMR_InitiateTransferModellingResponsibility.Instances
-5.	See Parameter: RequestTransferModellingResponsibility.Instances.
-Parameter: TMR_InitiateTransferModellingResponsibility.Attributes
-6.	See Parameter: RequestTransferModellingResponsibility.Attributes.
-Parameter: TMR_InitiateTransferModellingResponsibility.CapabilityType
-7.	See Parameter: RequestTransferModellingResponsibility.CapabilityType.
-Parameter: TMR_InitiateTransferModellingResponsibility.InstanceAttributeValues
-8.	See Parameter: RequestTransferModellingResponsibility.InstanceAttributeValues.
 
-#### Interaction: TMR_CancelRequest
-1.	Sent by the Requesting Federate to cancel a request.
-Parameter: TMR_CancelRequest:Reason
-2.	An enumerated value that describes the reason for the cancellation:
-Other
-a.	When a Requesting Federate for some reason except time out decides not to complete a transfer, a cancel request shall be sent from the Request Federate to the Response Federate.
-TimeOut
-a.	When a model's time limit for receiving a TMR Offer has passed, a cancel of the request shall be sent from the Request Federate to the Response Federate.
+group HLA Services
 
-#### Interaction: TMR_TransferResult
-1.	Sent by the Requesting Federate, receiver is the initiating federate.
-Parameter: TMR_TransferResult.TransferOk
-2.	A Boolean value indicating the result of the transfer.
+Request->>RTI: AttributeOwnershipAcquisition()
+RTI->>Response: requestAttributeOwnershipRelease()
+Response->>RTI: updateAttributeValues()
+RTI->>Request: reflectAttributeValues()
+Response->>RTI: attributeOwnershipDivestitureIfWanted()
+RTI->>Request: attributeOwnershipAcquisitionNotification()
+end
+autonumber off
+--->
+**Figure: Negotiated Acquisition**
 
-### Use Cases
-A number of different cases are described with sequence diagrams in this chapter.
+1. A `TMR_RequestTransferOfModellingResponsibility` interaction is sent from Request federate to Response Federate. The `TransferType` parameter is set to Acquire to indicate that a change in attribute ownership is requested from the Response federate to the Request Federate. Included in the request are references to all instances and associated attributes involved in the transfer.
+2. The Response federate replies to the request by sending a  `TMR_OfferTransferOfModellingResponsibility` interaction. The parameter `isOffering` indicates if the request can be accepted or not. If `isOffering` is set to True, the Response federate is offering to release ownership of the attributes.
+3. 
+
+
+### Negotiated Divestiture 
+The requesting federate initiates the transfer for divesting instance attributes.
  
-Figure 5-2: The TMR interactions and HLA services are colour coded.
- 
-#### Acquire Request and a Positive Offer
+<img src="./images/divestok.svg" width="700px"/>
+
+<!---
+participant Request
+participant Response
+participant RTI
+
+autonumber 
+
+
+Request ->> Response:TMR_RequestTransferOfModellingResponsibility(TransferType=Divest)
+
+Response->>Request:TMR_OfferTransferOfModellingResponsibility(isOffering=True)
+
+
+group HLA Services
+
+Response->>RTI: AttributeOwnershipAcquisition()
+RTI->>Request: requestAttributeOwnershipRelease()
+Request->>RTI: updateAttributeValues()
+RTI->>Response: reflectAttributeValues()
+Request->>RTI: attributeOwnershipDivestitureIfWanted()
+RTI->>Response: attributeOwnershipAcquisitionNotification()
+end
+autonumber off
+
+--->
+
+**Figure: Negotiated Divestiture**
+
+In the above example, the HLA callback `requestAttributeOwnershipRelease`, with a TransactionId as UserSuppliedTag, may be delivered to the Requesting federate before the `TMR_OfferTransferOfModellingResponsibility` is received. In such circumstances the `requestAttributeOwnershipRelease` is considered a positive offer and the requesting federate shall ignore any `TMR_OfferTransferOfModellingResponsibility` received later for the same TransactionId. 
+
+
+### Acquisition without Negotiation
+
+
+<img src="./images/acquirewithoutnegotiation.svg" width="700px"/>
+
+<!---
+participant Trigger
+participant Request
+participant RTI
+
+autonumber 
+
+Trigger->>Request: TMR_InitiateTransferOfModellingResponsibility(TransferType=AcquireWithoutNegotiation)
+
+Request->>Trigger:TMR_OfferTransferOfModellingResponsibility(isOffering=True)
+
+
+group HLA Services
+
+Request->>RTI: attributeOwnershipAcquisitionIfAvailable()
+RTI->>Request: attributeOwnershipAcquisitionNotification()
+end
+
+Request->>Trigger:TMR_TransferResults()
+autonumber off
+
+--->
  
-Figure 5-3: TMR Acquire – OK. The requesting federate initiates 
-the transfer to acquire instance attributes, transfer successful.
-5.2.4.2.	Transfer Request and a Negative Offer
+**Figure: Acquisition without Negotiation**
+
+
+1. A `TMR_InitiateTransferOfModellingResponsibility` with `TransferType` set to `AcquireWithoutNegotiation` is sent from an trigger federate to the requesting federate.
+2. A  `TMR_OfferTransferOfModellingResponsibility` is send from the Requesting federate to the trigger federate as an indication that the initiation was received and if it is accepted.
+3. The Requesting federate uses the HLA Ownership Management Service `attributeOwnershipAcquisitionIfAvailable` to request ownership of attributes without negotiation of its release. 
+4. The HLA Ownership Management Service `attributeOwnershipAcquisitionNotification` informs the Request federate when transfer of ownership is completed.
+5. The Request federate informs the Trigger federate of the result of the transfer by sending a `TMR_TransferResults` interaction.
+
+
+### Cancellation of Transfer
+
+#### Transfer Request and a Negative Offer
 The transfer type can be either Acquire or Divest in this case.
  
 Figure 5-4: The Requesting Federate Initiates the Transfer to 
@@ -177,44 +303,11 @@ The requesting federate initiates the transfer but for some reason decides to ca
  
 Figure 5-6: TMR CancelRequest – 2. The requesting federate initiates the transfer to acquire instance attributes, a positive offer from the response federate, thereafter cancelled by the requesting federate.
 
-#### Divest Request and Positive Offer 
-The requesting federate initiates the transfer for divesting instance attributes.
- 
-Figure 5-7: TMR Divest – OK. The requesting federate initiates the 
-transfer to divest instance attributes, transfer successful.
-
-#### Divest Request and Positive Offer, Race Condition 
-The requesting federate initiates the transfer for divesting instance attributes, the callback service is delivered before the positive offer interaction, and the callback is treated as a positive offer. The requesting federate does not need to wait for the TMR_OfferTransferResponsibility interaction to send the HLA service attributeOwnershipDivestureIfWanted. The UserSuppliedTag contains the transaction id and is bound to the original request.
- 
-Figure 5-8: TMR Divest – OK – Race. The callback 
-service is treated as an implicit positive offer.
-
 #### Divest Request, Positive Offer, Cancel Request After HLA Ownership Negotiation Started 
 The requesting federate initiates the transfer for divesting instance attributes, the offer is positive but requesting federate cancels the request after the response federate has called attributeOwnershipAcquisition. The response federate has to cancel the acquisition with HLA service cancelAttributeOwnershipAcquisition.
  
 Figure 5-9: TMR CancelRequest – 3. The requesting federate initiates the transfer to divest instance attributes, a positive offer from the response federate, thereafter cancelled by the requesting federate.
 
-#### Initiate from External Source, Acquire Request, Positive Offer
-The requesting federate starts the acquiring transfer after an initiate from an external source. The requesting federate sends a positive offer to the initiating federate and a report that the transfer was OK after it is completed.
- 
-Figure 5-10: The Trigger Federate Initiates the Transfer 
-to Acquire Instance Attributes, Transfer Successful.
- 
-#### Initiate from External Source, Divest Request, Positive Offer
-The requesting federate starts the divesting transfer after an initiate from an external source. The requesting federate sends a positive offer to the initiating federate and a report that the transfer was OK after it is completed.
- 
-Figure 5-11: The Trigger Federate initiates the Transfer 
-to Divest Instance Attributes, Transfer Successful.
 
-#### Initiate from External Source, Acquire Request, Positive Offer and Cancel Request 
-The requesting federate starts the acquiring transfer after an initiate from an external source. The requesting federate sends a positive offer to the initiating federate. A report that the transfer failed is sent after the cancellation.
- 
-Figure 5-12: The Trigger Federate Initiates the Transfer to Acquire or 
-Divest Instance Attributes, a Positive Offer from the Requesting 
-Federate, Thereafter Cancelled by the Requesting Federate.
 
-#### Initiate from External Source, AcquireWithoutNegotiating Request
-The requesting federate starts the acquiring transfer after an initiate from an external source. The requesting federate sends a positive offer to the initiating federate and a report that the transfer was OK after it is completed.
- 
-Figure 5-13: The Trigger Federate Initiates the Transfer 
-to Acquire Instance Attributes Without Negotiation.
+

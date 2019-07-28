@@ -1,4 +1,4 @@
-## Changelog for NETN-TMR
+## Changelog NETN-TMR
 
 ### Changes for v2.0 (RC 1)
 
