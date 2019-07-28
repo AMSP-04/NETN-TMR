@@ -287,27 +287,51 @@ autonumber off
 
 ### Cancellation of Transfer
 
-#### Transfer Request and a Negative Offer
-The transfer type can be either Acquire or Divest in this case.
- 
-Figure 5-4: The Requesting Federate Initiates the Transfer to 
-Acquire or Divest Instance Attributes, No Transfer Done.
- 
-#### Request and Cancel Request 
-The requesting federate initiates the transfer but for some reason decides to cancel the request, e.g. a time out due to no offer from the response federate.
- 
-Figure 5-5: TMR CancelRequest – 1. The requesting federate initiates the transfer to acquire instance attributes, thereafter cancelled by the requesting federate.
-
-#### Request, Positive Offer and Cancel Request 
-The requesting federate initiates the transfer but for some reason decides to cancel the request after a positive offer from the response federate.
- 
-Figure 5-6: TMR CancelRequest – 2. The requesting federate initiates the transfer to acquire instance attributes, a positive offer from the response federate, thereafter cancelled by the requesting federate.
-
-#### Divest Request, Positive Offer, Cancel Request After HLA Ownership Negotiation Started 
-The requesting federate initiates the transfer for divesting instance attributes, the offer is positive but requesting federate cancels the request after the response federate has called attributeOwnershipAcquisition. The response federate has to cancel the acquisition with HLA service cancelAttributeOwnershipAcquisition.
- 
-Figure 5-9: TMR CancelRequest – 3. The requesting federate initiates the transfer to divest instance attributes, a positive offer from the response federate, thereafter cancelled by the requesting federate.
 
 
+<img src="./images/cancellation.svg" width="800px"/>
+
+<!---
+participant Request
+participant Response
+participant RTI
+
+autonumber 
+
+== A. Cancel Acquisition Request==
+Request ->> Response:TMR_RequestTransferOfModellingResponsibility(TransactionId, TransactionType=Acquire)
+Response->>Request:TMR_OfferTransferOfModellingResponsibility(TransactionId, isOffering=True)
+Request ->> Response:TMR_CancelRequest(TransactionId)
+
+== B. Cancel Divestiture Request==
+Request ->> Response:TMR_RequestTransferOfModellingResponsibility(TransactionId, TransactionType=Divest)
+Response->>Request:TMR_OfferTransferOfModellingResponsibility(TransactionId, isOffering=True)
+Response ->> RTI: attributeOwnershipAcquisition()
+RTI ->>Request: requestAttributeOwnershipRelease()
+Request ->> Response:TMR_CancelRequest(TransactionId)
+Response ->> RTI: cancelAttributeOwnershipAcquisition()
+RTI ->>Response: confirmAttributeOwnershipCancellation()
+
+autonumber off
+--->
+**Figure: Cancellation of Transfer**
+
+
+
+#### A. Cancel Acquisition Request
+
+1. The Request federate initiates an acquisition transfer with a `TMR_RequestTransferOfModellingResponsibility` interaction.
+2. The Respons federate provides a positive offer by sending a `TMR_OfferTransferOfModellingResponsibility` interaction.
+3. The Request federate sends a `TMR_CancelRequest` interaction to cancel the request either after or before receiving the positive offer. No `attributeOwnershipAcquisition` will be sent by the Request federate.
+
+#### B. Cancel Divestiture Request
+
+4. The Request federate initiates an divestiture transfer with a `TMR_RequestTransferOfModellingResponsibility` interaction.
+5. The Respons federate provides a positive offer by sending a `TMR_OfferTransferOfModellingResponsibility` interaction.
+6. The Respons federate immediately sends a `attributeOwnershipAcquisition`
+7. The Request federate will receive the `TMR_OfferTransferOfModellingResponsibility` interaction and `requestAttributeOwnershipRelease` callback in an undetermined order.
+8. The Request federate sends a `TMR_CancelRequest` interaction to cancel the request. The cancel is sent any time after making the request but before responding to the `requestAttributeOwnershipRelease` callback.
+9. The Response federate calls `cancelAttributeOwnershipAcquisition` to abort the ongoing HLA attribute ownership transfer.
+10. The Response federate is notified with a `confirmAttributeOwnershipCancellation` callback when the HLA attribute ownership transfer has been aborted.
 
 
