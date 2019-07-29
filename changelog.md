@@ -14,6 +14,13 @@
 #### NETN-TMR#4 Update Introduction documentation
 * Introduction section restructured and clarified.
 
+#### NETN-TMR#9 Update TMR PATTERN USAGE incl. seq. diagrams
+* Split section into Transfer of Modelling Responsibility Pattern and Use Cases
+* Structured interaction class descriptions
+* Added seqence diagram and text for basic TMR pattern
+* Added seqence diagrams for Negotiated Acquisition, Negotiated Divetiture and non-negotiated Acquisition
+* Merged and simplified Cancellation diagrams
+
 ### Changes for v1.1.3
 
 v1.0.1 XML Schema Reference Changed
