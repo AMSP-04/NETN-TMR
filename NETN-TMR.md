@@ -7,12 +7,11 @@ This work is licensed under a [Creative Commons Attribution-NoDerivatives 4.0 In
 
 ## Introduction
 
-In a federated distributed simulation the participating systems (federates) collectively model the synthetic environment. Allocation of modelling responsibilities are based on individual federate capabilities, federation design agreements, and initial scenario conditions. The update of an attribute for a specific simulated entity is allocated to at most one federate. 
-However, during execution the modelling responsibility may change and the ownership of responsibility can be transferred. Basic services for the divestiture and acquisition of attribute ownership is provided by IEEE 1516 High Level Architecture (HLA).
+In a federated distributed simulation the participating systems (federates) collectively model the synthetic environment. Allocation of modelling responsibilities are based on individual federate capabilities, federation design agreements, and initial scenario conditions. The responsibility of updating an attribute for a specific simulated entity is allocated to at most one federate. However, during execution the modelling responsibility may change and the ownership of attributes can be transferred. 
 
-A negotiated and coordinated transfer of modelling responsibilities requires agreements between federates before attribute ownership is transferred. 
+Basic services for the divestiture and acquisition of attribute ownership is provided by IEEE 1516 High Level Architecture (HLA). A negotiated and coordinated transfer of modelling responsibilities requires agreements between federates before attribute ownership is transferred. 
 
-The NATO Education and Training Network Transfer of Modelling Responsibilities (NETN-TMR) FOM Module is a specification of how to transfer attribute modelling responsibility between federates in a distributed simulation. 
+The NATO Education and Training Network Transfer of Modelling Responsibilities (NETN-TMR) FOM Module is a specification of how to perform a negotiated and coordinated transfer of attribute modelling responsibility between federates in a distributed simulation. 
 
 The specification is based on IEEE 1516 High Level Architecture (HLA) Object Model Template (OMT) and primarily intended to support interoperability in a federated simulation (federation) based on HLA. A Federation Object Model (FOM) Module is used to specify how data is represented and exchanged in the federation. The NETN-TMR FOM module is available as an XML file for use in HLA based federations.
 
@@ -20,7 +19,7 @@ The specification is based on IEEE 1516 High Level Architecture (HLA) Object Mod
 
 The NETN-TMR FOM module provides a standard interface and protocol for conducting negotiated and coordinated transfer of attribute modelling responsibility between federates. It extends the HLA Ownership Management services by providing the means to 
 1. Negotiate the transfer of ownership. 
-2. Initiate ownership transfer using a triggering federate.
+2. Initiate ownership transfer using a Trigger federate.
 
 A transfer of modelling responsibility is perfomed during runtime, to dynamically change the responsibility to update specific attributes, to a more suitable federate.
 
@@ -36,19 +35,19 @@ For example:
 NETN-TMR covers the following cases:
 
 * Negotiated acquisition where a federate requests to receive the modelling responsibility 
-* Acquisition without negotiation where a federate receives the modelling responsibility 
 * Negotiated divestiture where a federate requests another federate to take modelling responsibility
+* Acquisition without negotiation where a federate receives the modelling responsibility 
 * Cancellation of transfer
 
 
 ## Transfer of Modelling Responsibilities Pattern
 
-TMR uses a combination of interactions and HLA Owenrship Management services to negotiate and perform a coordinated transfer of attribute ownership. The pattern includes a triggering interaction (optional) to initiate transfer and interactions for requesting, offering, cancelling and sending results of a completed transfer.
+NETN-TMR uses a combination of HLA interactions and HLA Owenrship Management services to negotiate and perform a coordinated transfer of attribute ownership. The pattern includes a triggering interaction (optional) to initiate transfer, and interactions for requesting, offering, cancelling and sending results of a completed transfer.
 
-### TMR Interaction Classes
+### Interaction Classes
 <img src="./images/interactionclasses.png" width="700px"/>
 
-**Figure: TMR Interaction Classes**
+**Figure: Interaction Classes**
 
 #### TMR (Root)
 
@@ -195,7 +194,7 @@ Response->>Request:TMR_OfferTransferOfModellingResponsibility(isOffering=True)
 
 group HLA Services
 
-Request->>RTI: AttributeOwnershipAcquisition()
+Request->>RTI: attributeOwnershipAcquisition()
 RTI->>Response: requestAttributeOwnershipRelease()
 Response->>RTI: updateAttributeValues()
 RTI->>Request: reflectAttributeValues()
@@ -206,9 +205,14 @@ autonumber off
 --->
 **Figure: Negotiated Acquisition**
 
-1. A `TMR_RequestTransferOfModellingResponsibility` interaction is sent from Request federate to Response Federate. The `TransferType` parameter is set to Acquire to indicate that a change in attribute ownership is requested from the Response federate to the Request Federate. Included in the request are references to all instances and associated attributes involved in the transfer.
-2. The Response federate replies to the request by sending a  `TMR_OfferTransferOfModellingResponsibility` interaction. The parameter `isOffering` indicates if the request can be accepted or not. If `isOffering` is set to True, the Response federate is offering to release ownership of the attributes.
-3. 
+1. The Request federate sends a `TMR_RequestTransferOfModellingResponsibility` interaction to the Response federate. The `TransferType` parameter is set to `Acquire` to indicate that attribute ownership is requested to change from the Response federate to the Request federate. Included in the request are references to all instances and associated attributes involved in the transfer.
+2. The Response federate replies to the request by sending a  `TMR_OfferTransferOfModellingResponsibility` interaction. If the `isOffering` parameter is True, the Response federate is offering to release ownership of the attributes.
+3. The Request federate starts the attribute ownership transfer using HLA Ownership Services by calling the RTI service `attributeOwnershipAcquisition`.
+4. The Response federate receives a `requestAttributeOwnershipRelease` callback from the RTI.
+5. Before releasing attribute ownership, the Response federate sends a final `updateAttributeValues` for all attributes involved in the transfer.
+6. The attribute update is reflected to the Request federate by the RTI using the `reflectAttributeValues` callback.
+7. The Response federate divest its ownership of the attributes by calling the RTI service `attributeOwnershipDivestitureIfWanted`.
+8. The RTI informs the Request federate (and the Response federate) of the changed ownership using the `attributeOwnershipAcquisitionNotiication` callback.
 
 
 ### Negotiated Divestiture 
@@ -243,6 +247,15 @@ autonumber off
 --->
 
 **Figure: Negotiated Divestiture**
+
+1. The Request federate sends a `TMR_RequestTransferOfModellingResponsibility` interaction to the Response federate. The `TransferType` parameter is set to `Divest` to indicate that attribute ownership is intended to change from the Request federate to the Response federate. Included in the request are references to all instances and associated attributes involved in the transfer.
+2. The Response federate replies to the request by sending a  `TMR_OfferTransferOfModellingResponsibility` interaction. If the `isOffering` parameter is True, the Response federate is offering to acquire ownership of the attributes.
+3. The Response federate starts the attribute ownership transfer using HLA Ownership Services by calling the RTI service `attributeOwnershipAcquisition`.
+4. The Request federate receives a `requestAttributeOwnershipRelease` callback from the RTI.
+5. Before releasing attribute ownership, the Request federate sends a final `updateAttributeValues` for all attributes involved in the transfer.
+6. The attribute update is reflected to the Response federate by the RTI using the `reflectAttributeValues` callback.
+7. The Request federate divest its ownership of the attributes by calling the RTI service `attributeOwnershipDivestitureIfWanted`.
+8. The RTI informs the Response federate (and the Request federate) of the changed ownership using the `attributeOwnershipAcquisitionNotiication` callback.
 
 In the above example, the HLA callback `requestAttributeOwnershipRelease`, with a TransactionId as UserSuppliedTag, may be delivered to the Requesting federate before the `TMR_OfferTransferOfModellingResponsibility` is received. In such circumstances the `requestAttributeOwnershipRelease` is considered a positive offer and the requesting federate shall ignore any `TMR_OfferTransferOfModellingResponsibility` received later for the same TransactionId. 
 
