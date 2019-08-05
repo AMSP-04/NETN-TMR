@@ -13,22 +13,40 @@
         <useHistory>v1.1.3 - Released version part of NETN-FOM v2.0 in AMSP-04 Ed A.</useHistory>
         <useHistory>v2.0.0 - Released version part of NETN-FOM v3.0 in AMSP-04 Ed B.</useHistory>
         <poc>
-            <pocType>Primary author</pocType>
-            <pocName>Lennart Olsson</pocName>
-            <pocOrg>Pitch Technologies</pocOrg>
-            <pocTelephone>+46 13 470 55 06</pocTelephone>
-            <pocEmail>lennart.olsson@pitch.se</pocEmail>
+            <pocType>Release authority</pocType>
+            <pocName>NATO Modelling and Simulation Group</pocName>
+            <pocOrg>NATO Science and Technology Organization</pocOrg>
+            <pocEmail>msg@cso.nato.int</pocEmail>
         </poc>
         <poc>
-            <pocType>Secondary author</pocType>
+            <pocType>Primary author</pocType>
+            <pocName>MSG-163 Evolution of NATO Standards for Federated Simulation</pocName>
+            <pocOrg>NATO Modelling and Simulation Group</pocOrg>
+            <pocEmail>msg@cso.nato.int</pocEmail>
+        </poc>
+        <poc>
+            <pocType>Primary author</pocType>
+            <pocName>MSG-134 NATO Distributed Simulation Architecture &amp; Design, Compliance Testing and Certification</pocName>
+            <pocOrg>NATO Modelling and Simulation Group</pocOrg>
+            <pocEmail>msg@cso.nato.int</pocEmail>
+        </poc>
+        <poc>
+            <pocType>Primary author</pocType>
+            <pocName>MSG-106 Enhanced CAX Architecture, Desing and Methodology</pocName>
+            <pocOrg>NATO Modelling and Simulation Group</pocOrg>
+            <pocEmail>msg@cso.nato.int</pocEmail>
+        </poc>
+        <poc>
+            <pocType>Contributor</pocType>
+            <pocName>Lennart Olsson</pocName>
+        </poc>
+        <poc>
+            <pocType>Contributor</pocType>
             <pocName>Bjorn Lofstrand</pocName>
-            <pocOrg>Pitch Technologies</pocOrg>
-            <pocTelephone>+46 13 470 55 07</pocTelephone>
-            <pocEmail>bjorn.lofstrand@pitch.se</pocEmail>
         </poc>
         <reference>
             <type>Dependency</type>
-            <identification>NETN-Base</identification>
+            <identification>NETN-BASE</identification>
         </reference>
         <other>
 Copyright © 2019 by NATO/OTAN. All rights reserved.

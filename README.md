@@ -12,7 +12,7 @@ The NATO Education and Training Network Transfer of Modelling Responsibilities (
 
 The specification is based on IEEE 1516 High Level Architecture (HLA) Object Model Template (OMT) and primarily intended to support interoperability in a federated simulation (federation) based on HLA. A Federation Object Model (FOM) Module is used to specify how data is represented and exchanged in the federation. The NETN-TMR FOM module is available as an XML file for use in HLA based federations.
 
-## Purpose
+### Purpose
 
 The NETN-TMR FOM module provides a standard interface and protocol for conducting negotiated and coordinated transfer of attribute modelling responsibility between federates. It extends the HLA Ownership Management services by providing the means to 
 1. Negotiate the transfer of ownership. 
@@ -27,7 +27,7 @@ For example:
 - Transfer to allow backup, maintenance or load-balancing
 - Transfer of certain attributes to functional models such as movement, damage assessment etc.
 
-## Scope
+### Scope
 
 NETN-TMR covers the following cases:
 
