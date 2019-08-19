@@ -4,7 +4,7 @@
         <name>Transfer of Modelling Responsibility FOM Module</name>
         <type>FOM</type>
         <version>2.0.0 RC1</version>
-        <modificationDate>2019-06-16</modificationDate>
+        <modificationDate>2019-08-19</modificationDate>
         <securityClassification>Not Classified</securityClassification>
         <purpose>Protocol for Transfer of Modelling Responsilbility</purpose>
         <applicationDomain>Training</applicationDomain>
@@ -323,19 +323,6 @@ Required.</semantics>
                     <value>7</value>
                 </enumerator>
             </enumeratedData>
-            <enumeratedData>
-                <name>CancellationReasonEnum32</name>
-                <representation>HLAinteger32BE</representation>
-                <semantics>Describes the reason for the cancellation</semantics>
-                <enumerator>
-                    <name>Other</name>
-                    <value>0</value>
-                </enumerator>
-                <enumerator>
-                    <name>TimeOut</name>
-                    <value>1</value>
-                </enumerator>
-            </enumeratedData>
         </enumeratedDataTypes>
         <arrayDataTypes>
             <arrayData>
@@ -344,13 +331,6 @@ Required.</semantics>
                 <cardinality>Dynamic</cardinality>
                 <encoding>HLAvariableArray</encoding>
                 <semantics>Array of attribute names.</semantics>
-            </arrayData>
-            <arrayData>
-                <name>FederateName</name>
-                <dataType>HLAunicodeChar</dataType>
-                <cardinality>Dynamic</cardinality>
-                <encoding>HLAvariableArray</encoding>
-                <semantics>HLA Federate Name</semantics>
             </arrayData>
             <arrayData>
                 <name>ArrayOfBytes</name>
