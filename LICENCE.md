@@ -1,4 +1,3 @@
-
 Creative Commons Attribution-NoDerivatives 4.0 International Public
 License
 
@@ -311,4 +310,3 @@ Section 8 -- Interpretation.
      as a limitation upon, or waiver of, any privileges and immunities
      that apply to the Licensor or You, including from the legal
      processes of any jurisdiction or authority.
-
