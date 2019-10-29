@@ -2,10 +2,10 @@
 
 ### Changes for v2.0 (RC 1)
 
-
 #### NETN-MRM#4 Make MRM not depend on TMR
-* Removed datatype `FederateName` (moved to NETN-BASE).
-* Removed datatype `CancellationReasonEnum32` (moved to NETN-BASE).
+* Moved datatype `FederateName` from NETN-TMR to NETN-BASE.
+* Moved datatype `CancellationReasonEnum32` from NETN-TMR to NETN-BASE.
+* Removed NETN-MRM dependency on NETN-TMR.
 
 #### NETN-TMR#1 Move datatype TransactionId to NETN-Base
 * Removed datatype TransactionId (moved to NETN-Base).
