@@ -4,7 +4,7 @@ NATO Education and Training Network (NETN) Transfer of Modelling Responsibilitie
 
 ## Introduction
 
-In a federated distributed simulation the participating systems (federates) collectively model the synthetic environment. Allocation of modelling responsibilities are based on individual federate capabilities, federation design agreements, and initial scenario conditions. The responsibility of updating an attribute for a specific simulated entity is allocated to at most one federate. However, during execution the modelling responsibility may change and the ownership of attributes can be transferred. 
+In a federated distributed simulation the participating systems (federates) collectively model the synthetic environment. Allocation of modelling responsibilities are based on individual federate capabilities, federation design agreements, and initial scenario conditions. The responsibility of updating an attribute for a specific simulated entity is allocated to at most one federate. However, during execution, the modelling responsibility may change and the ownership of attributes can be transferred. 
 
 Basic services for the divestiture and acquisition of attribute ownership is provided by IEEE 1516 High Level Architecture (HLA). A negotiated and coordinated transfer of modelling responsibilities requires agreements between federates before attribute ownership is transferred. 
 
@@ -18,7 +18,7 @@ The NETN-TMR FOM module provides a standard interface and protocol for conductin
 1. Negotiate the transfer of ownership. 
 2. Initiate ownership transfer using a Trigger federate.
 
-A transfer of modelling responsibility is perfomed during runtime, to dynamically change the responsibility to update specific attributes, to a more suitable federate.
+A transfer of modelling responsibility is performed during runtime, to dynamically change the responsibility to update specific attributes, to a more suitable federate.
 
 For example: 
 - Transfer from a Live to a Virtual or Constructive simulation
@@ -31,8 +31,8 @@ For example:
 
 NETN-TMR covers the following cases:
 
-* Negotiated acquisition where a federate requests to receive the modelling responsibility 
-* Divestiture where a federate requests another federate to take modelling responsibility
+* Negotiated acquisition where a federate request to receive the modelling responsibility 
+* Divestiture where a federate request another federate to take modelling responsibility
 * Acquisition without negotiation where a federate receives the modelling responsibility
 * Cancellation of transfer
 
@@ -43,21 +43,21 @@ This work is licensed under a [Creative Commons Attribution-NoDerivatives 4.0 In
 
 The work includes the [NETN-TMR.xml](NETN-TMR.xml) FOM Module and documentation NETN-TMR.md.
 
-Above licence gives you the right to use and redistribute the NETN FOM Module (XML file and Documentation) in its entirety without modification. You are also allowed to develop your own new FOM Modules (in separate XML files and separate documentation) that build-on/extends the NETN module by reference and including neccessary scaffolding classes. You are NOT allowed to modify this FOM Module or its documentation without prior permission by the NATO Modelling and Simulation Group. 
+Above licence gives you the right to use and redistribute the NETN FOM Module (XML file and Documentation) in its entirety without modification. You are also allowed to develop your FOM Modules (in separate XML files and separate documentation) that build-on/extends the NETN module by reference and including necessary scaffolding classes. You are NOT allowed to modify this FOM Module or its documentation without prior permission by the NATO Modelling and Simulation Group. 
 
-## Versions, updates and extentions
+## Versions, updates and extensions
 
-All updates and versioning of this work is coordinated by the NATO Modelleing and Simulation Coordination Office (MSCO), managed by the NATO Modelling and Simulation Group (NMSG) and performed as NATO Science and Technology Organization (STO) technical activities in support of the NMSG Modelling and Simulation Standards Subgroup (MS3).
+All updates and versioning of this work is coordinated by the NATO Modelling and Simulation Coordination Office (MSCO), managed by the NATO Modelling and Simulation Group (NMSG) and performed as NATO Science and Technology Organization (STO) technical activities in support of the NMSG Modelling and Simulation Standards Subgroup (MS3).
 
-Feedback on the use of this work, suggestions for improvements and identified issues are welcome and can be provided using GitGub issue tracking. To engage in the development and update of this FOM Module please contact your national NMSG representative.
+Feedback on the use of this work, suggestions for improvements and identified issues are welcome and can be provided using GitHub issue tracking. To engage in the development and update of this FOM Module please contact your national NMSG representative.
 
 Version numbering of this FOM Module and associated documentation is based on the following principles:
 
-* New official version number is assigned and in effect only when new release is made in the Master branch.
-* Updates in the Develop branch will not change version number.
-* In the FOM Module useHistory information include only information on official releases.
-* Update of the major version number is made if the change constitute a major restructuring, merging, addition or redefinition of semantics that breaks backward compatibility or cover entirely new concepts.
-* Update of the minor version number is made if the change constitute a minor additions to existing concepts and editorial changes that do not break backward compatibility but may require updates of software to use new concepts.
+* New official version number is assigned and in effect only when a new release is made in the Master branch.
+* Updates in the Develop branch will not change the version number.
+* In the FOM Module `useHistory` information includes only information on official releases.
+* Update of the major version number is made if the change constitutes a major restructuring, merging, addition or redefinition of semantics that breaks backward compatibility or cover entirely new concepts.
+* Update of the minor version number is made if the change constitutes minor additions to existing concepts and editorial changes that do not break backward compatibility but may require updates of software to use new concepts.
 * Patches are released to fix minor issues that do not break backward compatibility.
 
 |Version|Description|
