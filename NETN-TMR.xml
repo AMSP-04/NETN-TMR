@@ -93,7 +93,7 @@ Above license gives you the right to use and redistribute the NETN FOM Module (X
                     <parameter>
                         <name>Respondent</name>
                         <dataType>FederateName</dataType>
-                        <semantics>The name of the sending federate of the TMR_OfferTransferModellingResponsibility. The requesting or responding federate. 
+                        <semantics>The name of the sending federate of the TMR_OfferTransferModellingResponsibility. The requesting or responding federate.
 Required.</semantics>
                     </parameter>
                     <parameter>
@@ -229,16 +229,7 @@ Required.</semantics>
         </requestUpdateTag>
     </tags>
     <dataTypes>
-        <simpleDataTypes>
-            <simpleData>
-                <name>Counter</name>
-                <representation>HLAinteger32BE</representation>
-                <units>NA</units>
-                <resolution>1</resolution>
-                <accuracy>perfect</accuracy>
-                <semantics>Counter</semantics>
-            </simpleData>
-        </simpleDataTypes>
+        <simpleDataTypes/>
         <enumeratedDataTypes>
             <enumeratedData>
                 <name>TransferTypeEnum32</name>
