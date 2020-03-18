@@ -11,13 +11,13 @@
 * Removed datatype TransactionId (moved to NETN-Base).
 
 #### NETN-TMR#2 Update modelIdentification
-* Change `modelIdentification` `securityClassification` from `unclassified` to `Not Classified`
-* Change `modelIdentification` `other` to include license information
-* Change `modelIdentification` `reference` to only refer to directly dependent FOM Modules
-* Add `modelIdentification` `useLimitation` to reflect Scope of FOM Module
-* Add `modelIdentification` `glyph` 
-* Update `modelIdentification` `purpose` to reflect Purpose of FOM Module 
-* Update `modelIdentification` `description` to reflect Introduction of FOM Module
+* Changed `modelIdentification` `securityClassification` from `unclassified` to `Not Classified`
+* Changed `modelIdentification` `other` to include license information
+* Changed `modelIdentification` `reference` to only refer to directly dependent FOM Modules
+* Added `modelIdentification` `useLimitation` to reflect Scope of FOM Module
+* Added `modelIdentification` `glyph` 
+* Updated `modelIdentification` `purpose` to reflect Purpose of FOM Module 
+* Updated `modelIdentification` `description` to reflect Introduction of FOM Module
 
 
 #### NETN-TMR#4 Update Introduction documentation

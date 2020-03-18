@@ -3,8 +3,8 @@
     <modelIdentification>
         <name>Transfer of Modelling Responsibility FOM Module</name>
         <type>FOM</type>
-        <version>2.0.0 RC1</version>
-        <modificationDate>2019-08-19</modificationDate>
+        <version>2.0</version>
+        <modificationDate>2020-03-18</modificationDate>
         <securityClassification>Not Classified</securityClassification>
         <purpose>Protocol for Transfer of Modelling Responsilbility</purpose>
         <applicationDomain>Training</applicationDomain>
@@ -35,14 +35,6 @@
             <pocName>MSG-106 Enhanced CAX Architecture, Desing and Methodology</pocName>
             <pocOrg>NATO Modelling and Simulation Group</pocOrg>
             <pocEmail>msg@cso.nato.int</pocEmail>
-        </poc>
-        <poc>
-            <pocType>Contributor</pocType>
-            <pocName>Lennart Olsson</pocName>
-        </poc>
-        <poc>
-            <pocType>Contributor</pocType>
-            <pocName>Bjorn Lofstrand</pocName>
         </poc>
         <reference>
             <type>Dependency</type>
