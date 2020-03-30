@@ -23,7 +23,7 @@
 * Introduction section restructured and clarified.
 
 #### NETN-TMR#5 Rename objectClass TMR to TMR_Root or TMR_Base
-* Changed InteractionClass `TMR` to `TMR_Interaction` and renamed parameter `TransactionID` to `TransferId`
+* Changed InteractionClass `TMR` to `TMR_Interaction` and renamed parameter `TransactionID` to `EventId`
 
 #### NETN-TMR#6 Drop or clarify use of capabilityType parameter
 * Remove Parameter `CapabilityType` from InteractionClass `TMR_RequestTransferModellingResponsibility`
@@ -59,9 +59,11 @@
 #### NETN-TMR#11 Naming of datatype NoofferReasonEnum32 and enumerations
 * Changed name of EnumeratedDatatype `NoofferReasonEnum32` to `NoOfferReasonEnum32` and enumeration `OwnershipStateNotApplicableWithRequest` to `OwnershipStateNotCompatibleWithRequest`
 
-#### NETN-TMR#12 Change datatype of Initiating to FederateName
-* Changed Datatype of Parameter `Initiating` of InteractionClass `TMR_InitiateTransferModellingResponsibility` from `HLAunicodeString` to `FederateName`
-* Changed Name of Parameter `Initiating` of InteractionClass `TMR_InitiateTransferModellingResponsibility` to `InitiatingFederate`
+#### NETN-TMR#13 Update use of parameters RequestFederate, ResponseFederate and Initiating
+* Remove parameter `Initiating` of interaction class `TMR_InitiateTransferModellingResponsibility`
+* Move parameter `RequestFederate` from interaction class `TMR` to `TMR_InitiateTransferModellingResponsibility`
+* Move parameter `ResponseFederate` from interaction class `TMR` to `TMR_InitiateTransferModellingResponsibility`
+* Add parameter `ResponseFederate` to interaction class `TMR_RequestTransferModellingResponsibility`
 
 #### NETN-TMR#15 Update to comply with Naming Conventions
 * Change name of EnumerateDatatype `TransferTypeEnum32` to `TransferEnumType`
