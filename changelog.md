@@ -2,75 +2,45 @@
 
 ### Changes for v2.0
 
-#### NETN-MRM#4 Make MRM not depend on TMR
-* Moved datatype `FederateName` to NETN-BASE.
-* Moved datatype `CancellationReasonEnum32` to NETN-BASE.
-* Removed NETN-MRM dependency on NETN-TMR.
-
-#### NETN-TMR#1 Move datatype TransactionId to NETN-Base
-* Moved datatype TransactionId to NETN-Base
-
-#### NETN-TMR#2 Update modelIdentification
-* Changed `modelIdentification` `securityClassification` from `unclassified` to `Not Classified`
-* Changed `modelIdentification` `other` to include license information
-* Changed `modelIdentification` `reference` to only refer to directly dependent FOM Modules
 * Added `modelIdentification` `useLimitation` to reflect Scope of FOM Module
 * Added `modelIdentification` `glyph` 
+* Added parameter `ResponseFederate` to interaction class `TMR_RequestTransferModellingResponsibility`
+
+* Moved parameter `RequestFederate` from interaction class `TMR` to `TMR_InitiateTransferModellingResponsibility`
+* Moved parameter `ResponseFederate` from interaction class `TMR` to `TMR_InitiateTransferModellingResponsibility`
+* Moved datatype `FederateName` to NETN-BASE.
+* Moved datatype `CancellationReasonEnum32` to NETN-BASE.
+* Moved datatype `TransactionId` to NETN-Base
+
+* Updated `modelIdentification` `securityClassification` from `unclassified` to `Not Classified`
+* Updated `modelIdentification` `other` to include license information
+* Updated `modelIdentification` `reference` to only refer to directly dependent FOM Modules
 * Updated `modelIdentification` `purpose` to reflect Purpose of FOM Module 
 * Updated `modelIdentification` `description` to reflect Introduction of FOM Module
+* Updated InteractionClass `TMR` to `TMR_Interaction` and renamed parameter `TransactionID` to `EventId`
+* Updated InteractionClass `TMR_OfferTransferModellingResponsibility` to `OfferTransfer`
+* Updated InteractionClass `TMR_RequestTransferModellingResponsibility` to `RequestTransfer`
+* Updated InteractionClass `TMR_CancelRequest` to `CancelRequest`
+* Updated InteractionClass `TMR_TransferResult` to `TransferResult` and parameter `TransferOk` to `IsCompleted`
+* Updated InteractionClass `TMR_InitiateTransferModellingResponsibility` to `InitiateTransfer`
+* Updated EnumerateDatatype name `TransferTypeEnum32` to `TransferEnumType`
+* Updated EnumerateDatatype name `NoOfferReasonEnum32` to `NoOfferReasonEnumType`
+* Updated EnumeratedDatatype name `NoofferReasonEnum32` to `NoOfferReasonEnum32` and enumeration `OwnershipStateNotApplicableWithRequest` to `OwnershipStateNotCompatibleWithRequest`
+* Updated ArrayDatatype name `ArrayOfAttributes` to `AttributeNamesType`
+* Updated Paramter `isOffering` of InteractionClass `TMR_OfferTransferOfModellingResponsibility` to `IsOffering`
 
-#### NETN-TMR#4 Update Introduction documentation
-* Introduction section restructured and clarified.
-
-#### NETN-TMR#5 Rename objectClass TMR to TMR_Root or TMR_Base
-* Changed InteractionClass `TMR` to `TMR_Interaction` and renamed parameter `TransactionID` to `EventId`
-
-#### NETN-TMR#6 Drop or clarify use of capabilityType parameter
-* Remove Parameter `CapabilityType` from InteractionClass `TMR_RequestTransferModellingResponsibility`
-* Remove Parameter `CapabilityType` from InteractionClass `TMR_InitiateTransferModellingResponsibility`
-* Remove EnumeratedDatatype `CapabilityTypeEnum32`
-
-#### NETN-TMR#7 Remove parameter InstanceAttributeValues
-* Remove Parameter `InstanceAttributeValues` from InteractionClass `TMR_RequestTransferModellingResponsibility`
-* Remove Parameter `InstanceAttributeValues` from InteractionClass `TMR_InitiateTransferModellingResponsibility`
-* Remove ArrayDatatype `ArrayOfInstanceAttributeValues`
-* Remove ArrayDatatype `ArrayOfAttributeValues`
-* Remove ArrayDatatype `ArrayOfBytes`
-* Remove FixedRecordDatatype `InstanceAttributeValuesStruct`
-* Remove FixedRecordDatatype `AttributeValueStruct`
-
-#### NETN-TMR#8
-* Remove Parameter `Respondent` from InteractionClass `TMR_OfferTransferModellingResponsibility`
-
-#### NETN-TMR#9 Update TMR PATTERN USAGE incl. seq. diagrams
-* Split section into Transfer of Modelling Responsibility Pattern and Use Cases
-* Structured interaction class descriptions
-* Added seqence diagram and text for basic TMR pattern
-* Added seqence diagrams for Negotiated Acquisition, Negotiated Divetiture and non-negotiated Acquisition
-* Merged and simplified Cancellation diagrams
-
-#### NETN-TMR#10 Restructure and simplify FOM interactions
-* Changed InteractionClass `TMR_OfferTransferModellingResponsibility` to `OfferTransfer`
-* Changed InteractionClass `TMR_RequestTransferModellingResponsibility` to `RequestTransfer`
-* Changed InteractionClass `TMR_CancelRequest` to `CancelRequest`
-* Changed InteractionClass `TMR_TransferResult` to `TransferResult` and parameter `TransferOk` to `IsCompleted`
-* Changed InteractionClass `TMR_InitiateTransferModellingResponsibility` to `InitiateTransfer`
-
-#### NETN-TMR#11 Naming of datatype NoofferReasonEnum32 and enumerations
-* Changed name of EnumeratedDatatype `NoofferReasonEnum32` to `NoOfferReasonEnum32` and enumeration `OwnershipStateNotApplicableWithRequest` to `OwnershipStateNotCompatibleWithRequest`
-
-#### NETN-TMR#13 Update use of parameters RequestFederate, ResponseFederate and Initiating
-* Remove parameter `Initiating` of interaction class `TMR_InitiateTransferModellingResponsibility`
-* Move parameter `RequestFederate` from interaction class `TMR` to `TMR_InitiateTransferModellingResponsibility`
-* Move parameter `ResponseFederate` from interaction class `TMR` to `TMR_InitiateTransferModellingResponsibility`
-* Add parameter `ResponseFederate` to interaction class `TMR_RequestTransferModellingResponsibility`
-
-#### NETN-TMR#15 Update to comply with Naming Conventions
-* Change name of EnumerateDatatype `TransferTypeEnum32` to `TransferEnumType`
-* Change name of EnumerateDatatype `NoOfferReasonEnum32` to `NoOfferReasonEnumType`
-* Change name of ArrayDatatype `ArrayOfAttributes` to `AttributeNamesType`
-* Change paramter `isOffering` of InteractionClass `TMR_OfferTransferOfModellingResponsibility` to `IsOffering`
-
+* Removed Parameter `CapabilityType` from InteractionClass `TMR_RequestTransferModellingResponsibility`
+* Removed Parameter `CapabilityType` from InteractionClass `TMR_InitiateTransferModellingResponsibility`
+* Removed Parameter `Respondent` from InteractionClass `TMR_OfferTransferModellingResponsibility`
+* Removed Parameter `Initiating` of interaction class `TMR_InitiateTransferModellingResponsibility`
+* Removed Parameter `InstanceAttributeValues` from InteractionClass `TMR_RequestTransferModellingResponsibility`
+* Removed Parameter `InstanceAttributeValues` from InteractionClass `TMR_InitiateTransferModellingResponsibility`
+* Removed EnumeratedDatatype `CapabilityTypeEnum32`
+* Removed ArrayDatatype `ArrayOfInstanceAttributeValues`
+* Removed ArrayDatatype `ArrayOfAttributeValues`
+* Removed ArrayDatatype `ArrayOfBytes`
+* Removed FixedRecordDatatype `InstanceAttributeValuesStruct`
+* Removed FixedRecordDatatype `AttributeValueStruct`
 
 ### Changes for v1.1.3
 
