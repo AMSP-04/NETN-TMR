@@ -367,7 +367,7 @@ NETN-TMR uses a combination of HLA interactions and HLA Ownership Management ser
 ``` mermaid 
  
 sequenceDiagram 
-autonumber 
+autonumber
  
 Trigger -&gt;&gt; Request:InitiateTransfer 
 Request -&gt;&gt; Response:RequestTransfer 
@@ -415,7 +415,7 @@ The requesting federate initiates the transfer to acquire instance attributes. T
 ``` mermaid 
  
 sequenceDiagram 
-autonumber 
+autonumber
  
 Request -&gt;&gt; Response:RequestTransfer(TransferType=Acquire) 
 Response-&gt;&gt;Request:OfferTransfer 
@@ -445,7 +445,7 @@ The requesting federate initiates the transfer for divesting instance attributes
 ``` mermaid 
  
 sequenceDiagram 
-autonumber 
+autonumber
  
 Request -&gt;&gt; Response:RequestTransfer(TransferType=Divest) 
 Response-&gt;&gt;Request:OfferTransfer 
@@ -476,7 +476,7 @@ In the above example, the HLA callback `requestAttributeOwnershipRelease`, with 
 ``` mermaid 
  
 sequenceDiagram 
-autonumber 
+autonumber
  
 Trigger -&gt;&gt; Request:InitiateTransfer(TransferType=AcquireWithoutNegotiation) 
 Request-&gt;&gt;RTI:attributeOwnershipAcquisitionIfAvailable 
@@ -491,27 +491,14 @@ Request-&gt;&gt;Trigger:TransferResults
 4. The **Request Federate** informs the **Trigger Federate** of the result of the transfer by sending a `TransferResults` interaction. 
  
  
-### Cancellation of Transfer 
-&lt;!--- 
- 
- 
-== B. Cancel Divestiture Request== 
-Request -&gt;&gt; Response:RequestTransfer(TransferId, TransactionType=Divest) 
-Response-&gt;&gt;Request:OfferTransfer(TransferId, IsOffering=True) 
-Response -&gt;&gt; RTI: attributeOwnershipAcquisition() 
-RTI -&gt;&gt;Request: requestAttributeOwnershipRelease() 
-Request -&gt;&gt; Response:CancelRequest(TransferId) 
-Response -&gt;&gt; RTI: cancelAttributeOwnershipAcquisition() 
-RTI -&gt;&gt;Response: confirmAttributeOwnershipCancellation() 
- 
-autonumber off 
----&gt; 
+### Cancellation of Transfer
+
 #### A. Cancel Acquisition Request 
  
 ``` mermaid 
  
 sequenceDiagram 
-autonumber 
+autonumber
  
 Request -&gt;&gt; Response:RequestTransfer(TransferType=Acquire) 
 Response-&gt;&gt;Request:OfferTransfer 
@@ -527,7 +514,7 @@ Request -&gt;&gt; Response:CancelRequest
 ``` mermaid 
  
 sequenceDiagram 
-autonumber 
+autonumber
  
 Request -&gt;&gt; Response:RequestTransfer(TransferType=Divest) 
 Response-&gt;&gt;Request:OfferTransfer 
