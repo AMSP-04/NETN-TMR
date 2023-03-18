@@ -1,11 +1,22 @@
 ## Changelog NETN-TMR
 
-### Changes for v3.0
-Version 3.0 was developed by MSG-191 and included in NETN-FOM v4.0.
+### v1.1 - Released version part of NETN-FOM v2.0 in AMSP-04 Ed A.
 
-* Changed datatype `TransactionId` to `UUID`
+v1.0.1 XML Schema Reference Changed
+v1.0.2 - Spelling correction at enumerations
+v1.0.3 - Adding AttributeValues
+v1.0.3r3 - Adding reason
+v1.0.3r4 - Added parameter Respondent at interaction TMR_OfferTransferModellingResponsibility and enumeration value NoofferReasonEnum32.OwnershipStateNotApplicableWithRequest
+v1.0.3r5 - Added enumeration value NoofferReasonEnum32.EntityNotKnown
+V1.0.3r6 - Change definition of data type TransactionId, a counter and the federate handle
+v1.1.0r1 - Added interactions TMR_CancelRequest and TMR_Status
+v1.1.0 - Removed "r1" from module name
+v1.1.1 - Update of Dependency table
+v1.1.2 - Rename of enumeration values (AttributeSetTooRestricted, AttributeSetTooExtensive).
+v1.1.3 - Rename of enumeration value (FederateTooBusy).
 
-### Changes for v2.0
+
+### v2.0 - Released version part of NETN-FOM v3.0 in AMSP-04 Ed B.
 
 * Added `modelIdentification` `useLimitation` to reflect Scope of FOM Module
 * Added `modelIdentification` `glyph` 
@@ -47,17 +58,8 @@ Version 3.0 was developed by MSG-191 and included in NETN-FOM v4.0.
 * Removed FixedRecordDatatype `InstanceAttributeValuesStruct`
 * Removed FixedRecordDatatype `AttributeValueStruct`
 
-### Changes for v1.1.3
 
-v1.0.1 XML Schema Reference Changed
-v1.0.2 - Spelling correction at enumerations
-v1.0.3 - Adding AttributeValues
-v1.0.3r3 - Adding reason
-v1.0.3r4 - Added parameter Respondent at interaction TMR_OfferTransferModellingResponsibility and enumeration value NoofferReasonEnum32.OwnershipStateNotApplicableWithRequest
-v1.0.3r5 - Added enumeration value NoofferReasonEnum32.EntityNotKnown
-V1.0.3r6 - Change definition of data type TransactionId, a counter and the federate handle
-v1.1.0r1 - Added interactions TMR_CancelRequest and TMR_Status
-v1.1.0 - Removed "r1" from module name
-v1.1.1 - Update of Dependecy table
-v1.1.2 - Rename of enumeration values (AttributeSetTooRestricted, AttributeSetTooExtensive).
-v1.1.3 - Rename of enumeration value (FederateTooBusy).
+### v2.1 - Released version part of NATO-FOM v4.0 in AMSP-04 Ed C.
+
+* Changed datatype `TransactionId` to `UUID`
+
