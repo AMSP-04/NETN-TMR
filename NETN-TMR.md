@@ -22,7 +22,12 @@ The NATO Education and Training Network Transfer of Modelling Responsibilities (
 
 The specification is based on IEEE 1516 High Level Architecture (HLA) Object Model Template (OMT) and is primarily intended to support interoperability in a federated simulation (federation) based on HLA. A Federation Object Model (FOM) Module specifies how data is represented and exchanged in the federation. The NETN-TMR FOM module is available as an XML file for use in HLA-based federations.
 
-NETN-TMR covers the following cases:  * A negotiated acquisition where a federate requests to receive the modelling responsibility  * Negotiated divestiture where a federate requests another federate to take modelling responsibility * Acquisition without negotiation where a federate receives the modelling responsibility  * Cancellation of transfer
+NETN-TMR covers the following cases:  
+
+* A negotiated acquisition where a federate requests to receive the modelling responsibility  
+* Negotiated divestiture where a federate requests another federate to take modelling responsibility 
+* Acquisition without negotiation where a federate receives the modelling responsibility  
+* Cancellation of transfer
 
 ## Overview 
  
@@ -49,7 +54,7 @@ Request->>Trigger:TransferResults
  
 1. An `InitiateTransfer` interaction is sent by a **Trigger Federate** to initiate a TMR request. Parameters include information on the participating federates, which object instances and what attributes to include in the transfer.  The **Trigger Federate** generates a unique `EventId` used in all subsequent TMR interactions related to the event. This step is optional. 
 2. A `RequestTransfer` interaction is sent by the requesting federate to the responding federate. If the request is the result of an `InitiateTransfer` interaction, the parameters are copied and used in the `RequestTransfer` interaction, including the `EventId`. If the request is not triggered, the **Request Federate** generates a unique `EventId` used in all subsequent TMR interactions related to the event. Three types of transfer can be requested `Acquire`, `Divest` or `AcquireWithoutNegotiating`. 
-3. As a reply to a `RequestTransfer`, a **Response Federate** sends an `OfferTransfer` interaction. This interaction indicates if a transfer can be achieved or not. If the transfer can be achieved HLA ownership services are immediatly used to complete the transfer of the negotiated attributes. 
+3. As a reply to a `RequestTransfer`, a **Response Federate** sends an `OfferTransfer` interaction. This interaction indicates if a transfer can be achieved or not. If the transfer can be achieved HLA ownership services are immediately used to complete the transfer of the negotiated attributes. 
  
 * Before divesting instance attributes, the federate updates the attributes (HLA service Update Attribute Values) 
 * After the acquisition of instance attributes, the attributes shall be updated (HLA service Update Attribute Values). 
@@ -57,7 +62,7 @@ Request->>Trigger:TransferResults
  
 Note: When the transfer type is `Divesting`, the delivery order of the interaction `OfferTransfer` and the HLA ownership callback service `requestAttributeOwnershipRelease` at the receiving federate is not determined. Due to this, receiving a `requestAttributeOwnershipRelease` callback should be treated in the same way as receiving an `OfferTransfer` with a positive offer. The user-supplied tag in the callback contains the `EventId` which identifies a specific transfer process. 
  
-4. A `TransferResult` interaction is sent by the **Request Federate** to indicate successful or unsuccessful completion of the transfer. 
+4. A `TransferResult` interaction is sent by the **Request Federate** to indicate the successful or unsuccessful completion of the transfer. 
  
 A `CancelRequest` interaction can be sent by the **Request Federate** to cancel a request at any point before HLA ownership transfer is completed. 
  
@@ -103,7 +108,7 @@ RTI->>Request:attributeOwnershipAcquisitionNotification
 3. The **Request Federate** starts the attribute ownership transfer using HLA Ownership Services by calling the RTI service `attributeOwnershipAcquisition`. 
 4. The **Response Federate** receives a `requestAttributeOwnershipRelease` callback from the RTI. 
 5. Before releasing attribute ownership, the **Response Federate** sends a final `updateAttributeValues` for all attributes involved in the transfer. 
-6. The attribute update is reflected the **Request Federate** by the RTI using the `reflectAttributeValues` callback. 
+6. The attribute update is reflected in the **Request Federate** by the RTI using the `reflectAttributeValues` callback. 
 7. The **Response Federate** divests its ownership of the attributes by calling the RTI service `attributeOwnershipDivestitureIfWanted`. 
 8. The RTI informs the **Request Federate** and the **Response federate** of the changed ownership using the `attributeOwnershipAcquisitionNotiication` callback. 
  
@@ -154,7 +159,7 @@ Request->>Trigger:TransferResults
 ``` 
  
  
-1. An `InitiateTransfer` with `TransferType` set to `AcquireWithoutNegotiation` is sent from an **Trigger Federate** to the **Request Federate**. 
+1. An `InitiateTransfer` with `TransferType` set to `AcquireWithoutNegotiation` is sent from a **Trigger Federate** to the **Request Federate**. 
 2. The **Request Federate** uses the HLA Ownership Management Service `attributeOwnershipAcquisitionIfAvailable` to request ownership of attributes without negotiation of its release. 
 3. The HLA Ownership Management Service `attributeOwnershipAcquisitionNotification` informs the **Request Federate** of ownership transfer completion. 
 4. The **Request Federate** informs the **Trigger Federate** of the result of the transfer by sending a `TransferResults` interaction. 
@@ -206,7 +211,7 @@ RTI->>Response:confirmAttributeOwnershipCancellation
 
 ## Interaction Classes
 
-Note that inherited and dependency parameters are not not included in the description of interaction classes.
+Note that inherited and dependency parameters are not included in the description of interaction classes.
 
 ```mermaid
 graph RL
@@ -240,7 +245,7 @@ An `InitiateTransfer` interaction is sent by a **Trigger Federate** to initiate 
 
 ### RequestTransfer
 
-A `RequestTransfer` interaction is sent by the requesting federate to the responding federate. If the request is the result of a `InitiateTransfer` interaction, the parameters from that interaction shall be copied and used in the request including `EventId`. If the request is not triggered the **Request Federate** shall generate a unique `EventId` to be used in all subsequent TMR interactions related to the event.
+A `RequestTransfer` interaction is sent by the requesting federate to the responding federate. If the request is the result of an `InitiateTransfer` interaction, the parameters from that interaction shall be copied and used in the request including `EventId`. If the request is not triggered the **Request Federate** shall generate a unique `EventId` to be used in all subsequent TMR interactions related to the event.
 
 |Parameter|Datatype|Semantics|
 |---|---|---|
@@ -254,7 +259,7 @@ A `RequestTransfer` interaction is sent by the requesting federate to the respon
 An `OfferTransfer` interaction is sent by a **Response Federate** as a reply to a `RequestTransfer` to indicate if a transfer can be accomplished or not. 
  
 **Special Case**: 
-When the transfer type is Divesting, the delivery order of the interaction `OfferTransfer` and the HLA ownership callback service `requestAttributeOwnershipRelease` at the receiving federate is not determined. Due to this, receiving a `requestAttributeOwnershipRelease` callback should be treated in the same way as receiving a `OfferTransfer` with a positive offer. The user-supplied tag in the callback contains the `EventId` which identifies a specific transfer process.
+When the transfer type is Divesting, the delivery order of the interaction `OfferTransfer` and the HLA ownership callback service `requestAttributeOwnershipRelease` at the receiving federate is not determined. Due to this, receiving a `requestAttributeOwnershipRelease` callback should be treated in the same way as receiving an `OfferTransfer` with a positive offer. The user-supplied tag in the callback contains the `EventId` which identifies a specific transfer process.
 
 |Parameter|Datatype|Semantics|
 |---|---|---|
@@ -271,7 +276,7 @@ A `CancelRequest` interaction can be sent by the **Request Federate** to cancel 
 
 ### TransferResult
 
-A `TransferResult` interaction is sent by the **Request Federate** to indicate successful or unsuccessful completion of the transfer.
+A `TransferResult` interaction is sent by the **Request Federate** to indicate the successful or unsuccessful completion of the transfer.
 
 |Parameter|Datatype|Semantics|
 |---|---|---|
