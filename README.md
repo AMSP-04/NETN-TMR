@@ -50,9 +50,9 @@ Version numbering of this FOM Module and associated documentation is based on th
 
 |Version|
 |---|
-|v1.1 - Released version part of NETN-FOM v2.0 in AMSP-04 Ed A.|
-|v2.0 - Released version part of NETN-FOM v3.0 in AMSP-04 Ed B.|
-|v2.1 - Released version part of NATO-FOM v4.0 in AMSP-04 Ed C.|
+|v1.1 - Released version part of NETN FOM v2.0 in AMSP-04 Ed A.|
+|v2.0 - Released version part of NETN FOM v3.0 in AMSP-04 Ed B.|
+|v2.1 - Released version part of NETN FOM v4.0 in AMSP-04 Ed C.|
 
 > [Changelog](changelog.md)
 
