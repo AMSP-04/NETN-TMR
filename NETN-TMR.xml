@@ -9,7 +9,7 @@
         <purpose>The NATO Education and Training Network Transfer of Modelling Responsibilities (NETN-TMR) FOM module provides a standard interface and protocol for transferring modelling responsibility between federates. It extends the HLA Ownership Management services by providing the means to Request a Transfer of Modelling Responsibility and to publish the initial and current modelling responsibilities. Use this capability to, for example:
             
 * Transfer modelling responsibility between virtual and constructive simulation systems  
-* Transfer modelling responsibility between hign- and low-fidelity models  
+* Transfer modelling responsibility between high- and low-fidelity models  
 * Transfer modelling responsibility to allow backup, maintenance or load-balancing</purpose>
         <applicationDomain>Training</applicationDomain>
         <description>In a federated distributed simulation, the participating systems (federates) collectively model the synthetic environment. Allocation of modelling responsibilities depends on individual federate capabilities, federation design agreements, and initial scenario conditions. The primary responsibility for modelling a simulated entity is allocated to, at most, one federate. However, during execution, the modelling responsibility and ownership of individual attributes may change. 
