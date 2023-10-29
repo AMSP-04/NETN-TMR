@@ -39,9 +39,8 @@ The NETN-TMR also defines the optional `HLAinteractionRoot` parameter `FederateA
 
 The `TMR_FederateApplication` object class represents modelling responsibility for NETN-ORG units, installations and equipment. Any change of the `TMR_FederateApplication` attributes is an implicit TMR trigger for the referenced federate application to, if required, take the modelling responsibility.
 
-``` mermaid 
- 
-sequenceDiagram 
+``` mermaid
+sequenceDiagram
 autonumber
 Federation->>Federate 1:Update TMR_FederateApplication(federate1, entity) 
 Federate 1->>Federation:Attribute Ownership Acquisition(entity.attributes) 
@@ -62,9 +61,8 @@ Federate 1->>Federation:Update entities.FederateApplication(Federate 1)
 
 An update of the `FederateApplication` attribute of a simulated entity is an implicit TMR trigger for the referenced federate application to, if required, take the modelling responsibility. E.g. during scenario initialization, a federate may register all objects and then update the `FederateApplication` attributes to trigger a change in modelling responsibility. Another example is using a log/replay tool to instantiate all objects at a specific time and then allow the modelling responsibility to be transferred to other federate applications to continue the simulation execution.
 
-``` mermaid 
- 
-sequenceDiagram 
+``` mermaid
+sequenceDiagram
 autonumber
 Federation->>Federate 1:Update entity.FederateApplication = federate 1
 Federate 1->>Federation:Attribute Ownership Acquisition(entity.attributes) 
@@ -88,9 +86,7 @@ This pattern uses NETN-ETR SimCon Request-Response interactions and the NETN-TMR
 
 #### Successful RequestTransfer
 ``` mermaid 
- 
-sequenceDiagram 
-
+sequenceDiagram
 autonumber
 Federation ->>Federate 1:RequestTransfer(request 1, entity, federate 1) 
 Federate 1->>Federation:HLA Attribute Ownership Acquisition(entity.attributes) 
@@ -100,7 +96,6 @@ Federate 2->>Federation:HLA Attribute Ownership Divestiture If Wanted(entity.att
 Federation->>Federate 1:HLA Attribute Ownership Acquisition Notification(entity.attributes) 
 Federate 1->>Federation:Update entity.FederateApplication 
 Federate 1->>Federation:Response(request 1, TRUE) 
- 
 ``` 
  
 1. Send a `RequestTransfer` interaction with a reference to the entity and the acquiring federate (federate 1).
@@ -113,9 +108,8 @@ Federate 1->>Federation:Response(request 1, TRUE)
 
 #### Unsuccessful RequestTransfer
 
-``` mermaid 
- 
-sequenceDiagram 
+``` mermaid
+sequenceDiagram
 autonumber
 Federation ->>Federate 1:RequestTransfer(request 1, entity, federate 1) 
 Federate 1->>Federation:HLA Attribute Ownership Acquisition(entity.attributes) 
@@ -124,7 +118,6 @@ Federate 2->>Federation:HLA Ownership Release(entity.attributes)
 Federate 2->>Federation:HLA Attribute Ownership Release Denied(entity.attributes)
 Federation->>Federate 1:HLA Attribute Ownership Unavailable(entity.attributes) 
 Federate 1->>Federation:Response(request 1, FALSE) 
- 
 ``` 
 
 1. Send a `RequestTransfer` interaction with a reference to the entity and the acquiring federate (federate 1).
@@ -140,7 +133,6 @@ Federate 1->>Federation:Response(request 1, FALSE)
 Send a `CancelRequest` interaction to attempt to cancel a request for transfer of modelling responsibility.
 
 ``` mermaid 
- 
 sequenceDiagram
 autonumber
 Federation ->>Federate 1:RequestTransfer(request 1, entity, federate 1) 
@@ -150,7 +142,6 @@ Federate 1->>Federation:Cancel Attribute Ownership Acquisition(entity.attributes
 Federation->>Federate 1:Confirm Attribute Ownership Acquisition Cancellation
 Federate 1->>Federation:Response(request 2, TRUE) 
 Federate 1->>Federation:Response(request 1, FALSE) 
- 
 ``` 
  
 1. Send a `RequestTransfer` interaction with a reference to the entity and the acquiring federate (federate 1).
@@ -163,8 +154,7 @@ Federate 1->>Federation:Response(request 1, FALSE)
 
 #### Unsuccessful Cancel RequestTransfer
 
-``` mermaid 
- 
+``` mermaid
 sequenceDiagram
 autonumber
 Federation ->>Federate 1:RequestTransfer(id 1, entity, federate 1) 
@@ -174,8 +164,7 @@ Federate 1->>Federation:Cancel Attribute Ownership Acquisition(entity.attributes
 Federation->>Federate 1:Attribute Ownership Acquisition Notification(entity.attributes) 
 Federate 1->>Federation:Response(request 2, FALSE)
 Federate 1->>Federation:Update entity.FederateApplication 
-Federate 1->>Federation:Response(request 1, TRUE) 
-
+Federate 1->>Federation:Response(request 1, TRUE)
 ``` 
 
 1. Send a `RequestTransfer` interaction with a reference to the entity and the acquiring federate (federate 1).
@@ -187,9 +176,6 @@ Federate 1->>Federation:Response(request 1, TRUE)
 7. Update the `FederateApplication` attribute of the transferred entities to reference the new federate application that received the modelling responsibility.
 8. Send a `Response` interaction referencing the `RequestTransfer` (request 1) and indicating a successful transfer.
 
-
-
-
 ## Object Classes
 
 Note that inherited and dependency attributes are not included in the description of object classes.
@@ -200,8 +186,6 @@ TMR_FederateApplication-->HLAobjectRoot
 ```
 
 ### HLAobjectRoot
-
-
 
 |Attribute|Datatype|Semantics|
 |---|---|---|
@@ -229,15 +213,11 @@ RequestTransfer-->ETR_SimCon
 
 ### HLAinteractionRoot
 
-
-
 |Parameter|Datatype|Semantics|
 |---|---|---|
 |FederateApplication|UUID|Optional. Reference to the federate application sending this interaction.|
 
 ### RequestTransfer
-
-
 
 |Parameter|Datatype|Semantics|
 |---|---|---|
