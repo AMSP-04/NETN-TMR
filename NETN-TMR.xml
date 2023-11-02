@@ -78,14 +78,14 @@ Above license gives you the right to use and redistribute the NETN FOM Module (X
             <semantics></semantics>
             <attribute>
                 <name>FederateApplication</name>
-                <dataType>UUID</dataType>
+                <dataType>FederateName</dataType>
                 <updateType>Conditional</updateType>
                 <updateCondition>On change</updateCondition>
                 <ownership>DivestAcquire</ownership>
                 <sharing>PublishSubscribe</sharing>
                 <transportation>HLAreliable</transportation>
                 <order>Receive</order>
-                <semantics>Optional. Reference to the federate application with the primary responsibility for modelling the object behaviour. The attribute value shall correspond to the UniqueId of a FederateApplication.</semantics>
+                <semantics>Optional. Reference to the federate application with the assigned primary responsibility for modelling the object behaviour.</semantics>
             </attribute>
         </objectClass>
     </objects>
@@ -98,7 +98,7 @@ Above license gives you the right to use and redistribute the NETN FOM Module (X
             <semantics></semantics>
             <parameter>
                 <name>FederateApplication</name>
-                <dataType>UUID</dataType>
+                <dataType>FederateName</dataType>
                 <semantics>Optional. Reference to the federate application sending this interaction.</semantics>
             </parameter>
             <interactionClass>
@@ -111,7 +111,7 @@ Above license gives you the right to use and redistribute the NETN FOM Module (X
                     <semantics></semantics>
                     <parameter>
                         <name>NewFederateApplication</name>
-                        <dataType>UUID</dataType>
+                        <dataType>FederateName</dataType>
                         <semantics>Required: Reference to the federate application requested to acquire modelling responsibility of the simulation entity.</semantics>
                     </parameter>
                 </interactionClass>
