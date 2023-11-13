@@ -77,7 +77,7 @@ Above license gives you the right to use and redistribute the NETN FOM Module (X
             <sharing>Neither</sharing>
             <semantics></semantics>
             <attribute>
-                <name>FederateApplication</name>
+                <name>AllocatedFederate</name>
                 <dataType>FederateName</dataType>
                 <updateType>Conditional</updateType>
                 <updateCondition>On change</updateCondition>
@@ -96,23 +96,18 @@ Above license gives you the right to use and redistribute the NETN FOM Module (X
             <transportation>HLAreliable</transportation>
             <order>TimeStamp</order>
             <semantics></semantics>
-            <parameter>
-                <name>FederateApplication</name>
-                <dataType>FederateName</dataType>
-                <semantics>Optional. Reference to the federate application sending this interaction.</semantics>
-            </parameter>
             <interactionClass>
-                <name>ETR_SimCon</name>
+                <name>ETR_Task</name>
                 <interactionClass>
                     <name>RequestTransfer</name>
                     <sharing>PublishSubscribe</sharing>
                     <transportation>HLAreliable</transportation>
                     <order>Receive</order>
-                    <semantics></semantics>
+                    <semantics>Trigger a transfer of modelling responsibility for the specified entity.</semantics>
                     <parameter>
-                        <name>NewFederateApplication</name>
+                        <name>AllocatedFederate</name>
                         <dataType>FederateName</dataType>
-                        <semantics>Required: Reference to the federate application requested to acquire modelling responsibility of the simulation entity.</semantics>
+                        <semantics>Required: Reference to the federate requested to acquire modelling responsibility of the simulation entity.</semantics>
                     </parameter>
                 </interactionClass>
             </interactionClass>
@@ -195,8 +190,8 @@ v1.1.3 - Rename of enumeration value (FederateTooBusy).</semantics>
             <semantics>## Overview 
  
 A Federate Application is software that can join as a federate in a federation. HLA requires all federates in a federation to have a unique name. Federation agreements should include a list of unique names for each participating federate. The NETN-ORG modules defines the optional attribute `FederateApplication` as an extension to the `HLAobjectRoot` object class. This allows all objects in NETN to be associated with the Federate that is assigned the primary responsibility of modelling the object. 
-
-In NETN, the primary modelling responsibility is assigned to a single federate but can be transferred to another federate during runtime. A federate with primary responsibility shall respond to all object related NETN-ETR interactions, including `SimCon` and `Task`. Primary responsibility does not necessarily mean HLA ownership of all attributes of an object but transferring responsibility may initiate HLA ownership acquisition.
+ 
+In NETN, the primary modelling responsibility is assigned to a single federate but can be transferred to another federate during runtime. A federate with primary responsibility shall respond to all object related NETN-ETR interactions, including `SimCon` and `Task`. Primary responsibility does not necessarily mean HLA ownership of all attributes of an object but transferring responsibility may initiate HLA ownership acquisition. 
  
 Transfer of modelling responsibilities between federate applications is triggered using one of the following patterns: 
 - Implicit by updating the FederateApplication attribute of a simulation entity. 
@@ -212,7 +207,7 @@ An update of the `FederateApplication` attribute of a simulated entity is an imp
 ``` mermaid 
  
 sequenceDiagram 
-autonumber
+autonumber 
 Federation-&gt;&gt;Federate 1:Update entity.FederateApplication = federate 1 
 Federate 1-&gt;&gt;Federation:Attribute Ownership Acquisition(entity.attributes) 
 Federation-&gt;&gt;Federate 2:Request Attribute Ownership Release(entity.attributes) 
@@ -236,8 +231,8 @@ This pattern uses NETN-ETR SimCon Request-Response interactions and the NETN-TMR
 #### Successful RequestTransfer 
 ``` mermaid 
  
-sequenceDiagram
-autonumber
+sequenceDiagram 
+autonumber 
 Federation -&gt;&gt;Federate 1:RequestTransfer(request 1, entity, federate 1) 
 Federate 1-&gt;&gt;Federation:HLA Attribute Ownership Acquisition(entity.attributes) 
 Federation-&gt;&gt;Federate 2:HLA Request Attribute Ownership Release(entity.attributes) 
@@ -261,8 +256,8 @@ Federate 1-&gt;&gt;Federation:Response(request 1, TRUE)
  
 ``` mermaid 
  
-sequenceDiagram
-autonumber
+sequenceDiagram 
+autonumber 
 Federation -&gt;&gt;Federate 1:RequestTransfer(request 1, entity, federate 1) 
 Federate 1-&gt;&gt;Federation:HLA Attribute Ownership Acquisition(entity.attributes) 
 Federation-&gt;&gt;Federate 2:HLA Request Attribute Ownership Release(entity.attributes) 
@@ -287,8 +282,8 @@ Send a `CancelRequest` interaction to attempt to cancel a request for transfer o
  
 ``` mermaid 
  
-sequenceDiagram
-autonumber
+sequenceDiagram 
+autonumber 
 Federation -&gt;&gt;Federate 1:RequestTransfer(request 1, entity, federate 1) 
 Federate 1-&gt;&gt;Federation:Attribute Ownership Acquisition(entity.attributes) 
 Federation-&gt;&gt;Federate 1:CancelRequest(request 2, request 1) 
@@ -311,8 +306,8 @@ Federate 1-&gt;&gt;Federation:Response(request 1, FALSE)
  
 ``` mermaid 
  
-sequenceDiagram
-autonumber
+sequenceDiagram 
+autonumber 
 Federation -&gt;&gt;Federate 1:RequestTransfer(id 1, entity, federate 1) 
 Federate 1-&gt;&gt;Federation:Attribute Ownership Acquisition(entity.attributes) 
 Federation-&gt;&gt;Federate 1:CancelRequest(id 2, request 1) 
