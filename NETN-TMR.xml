@@ -105,7 +105,7 @@ Above license gives you the right to use and redistribute the NETN FOM Module (X
                     <order>Receive</order>
                     <semantics>Trigger a transfer of modelling responsibility for the specified entity.</semantics>
                     <parameter>
-                        <name>AllocatedFederate</name>
+                        <name>Federate</name>
                         <dataType>FederateName</dataType>
                         <semantics>Required: Reference to the federate requested to acquire modelling responsibility of the simulation entity.</semantics>
                     </parameter>
