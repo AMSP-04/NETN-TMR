@@ -61,15 +61,15 @@ v1.1.3 - Rename of enumeration value (FederateTooBusy).
 
 ### v3.0 - Released version part of NETN FOM v4.0 in AMSP-04 Ed C.
 
-* Removed All Interaction Classes
-* Removed All Datatypes
-
-* Added Dependency on `NETN-ETR`
-* Added Dependency on `NETN-ORG`
-
-* Added Object Class `TMR_FederateApplication`
-* Added Interaction Class `RequestTransfer`
-
-* Added `HLAobjectRoot` attribute `FederateApplication`
+* Removed All Interaction Classes 
+* Removed All Datatypes 
+ 
+* Added Dependency on `NETN-ETR` 
+* Added Dependency on `NETN-ORG` 
+ 
+* Added Object Class `TMR_FederateApplication` 
+* Added Interaction Class `RequestTransfer` 
+ 
+* Added `HLAobjectRoot` attribute `FederateApplication` 
 * Added `HLAinteractionRoot` parameter `FederateApplication`
 
