@@ -30,6 +30,7 @@ The NETN-ORG modules defines the optional attribute `AllocatedFederate` as an ex
 * The owner (HLA ownership) of the `AllocatedFederate` attribute is the federate with primary modelling responsibility for the object.
 * An update of this attribute triggers the referenced federate to initiate a transfer to acquire primary modelling responsibility.
 * Sending a `RequestTransfer` interaction triggers the referenced federate to initiate a transfer. If successful, the acquiring federate owns (HLA owenership) the `AllocatedFederate` attribute and updates its value to the federate name.
+* Transfer of primary modelling responsibility is impossible if the `AllocatedFederate` attribute is unowned in the federation.
  
 ### AllocatedFederate attribute update
  
