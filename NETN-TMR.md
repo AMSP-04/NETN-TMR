@@ -25,7 +25,7 @@ NETN-TMR extends the HLA concept of object instance attribute ownership by assoc
 
 The federate with a primary responsibility shall respond to all related NETN-ETR `ETR_Task` requests.
 
-The NETN-ORG modules defines the optional attribute `AllocatedFederate` as an extension to the `HLAobjectRoot` object class. The value of the `AllocatedFederate` attribute refers to a federate by its unique name.
+The NETN-TMR modules defines the optional attribute `AllocatedFederate` as an extension to the `HLAobjectRoot` object class. The value of the `AllocatedFederate` attribute refers to a federate by its unique name.
 
 * The owner (HLA ownership) of the `AllocatedFederate` attribute is the federate with primary modelling responsibility for the object.
 * An update of this attribute triggers the referenced federate to initiate a transfer to acquire primary modelling responsibility.
@@ -57,9 +57,9 @@ Federate 1-->>Federation:Attribute Ownership Acquisition(entity.AllocatedFederat
 6. Acquire the ownership of the `AllocatedFederate` attribute to complete the transfer of modelling responsibility.
 
 
-### RequestTransfer Interaction
+### RequestTransfer Interaction 
  
-Sending a `RequestTransfer` triggers the referenced federate to start acquiring modelling responsibility.
+Sending a `RequestTransfer` triggers the referenced federate to start acquiring modelling responsibility. 
  
 #### Successful RequestTransfer 
 ``` mermaid 
@@ -69,10 +69,9 @@ autonumber
 Federation ->>Federate 1:RequestTransfer(requestId, entity, federate 1) 
 Federate 1->>Federation:HLA Attribute Ownership Acquisition(entity.attributes) 
 Federation->>Federate 2:HLA Request Attribute Ownership Release(entity.attributes) 
-Federate 2->>Federation:HLA Ownership Release(entity.attributes) 
 Federate 2->>Federation:HLA Attribute Ownership Divestiture If Wanted(entity.attributes) 
 Federation->>Federate 1:HLA Attribute Ownership Acquisition Notification(entity.attributes) 
-Federate 1->>Federation:Update entity.FederateApplication 
+Federate 1->>Federation:Update entity.AllocatedFederate 
 Federate 1->>Federation:Response(requestId, TRUE) 
  
 ``` 
@@ -101,19 +100,17 @@ Federate 1->>Federation:HLA Attribute Ownership Acquisition(entity.attributes)
 Federation->>Federate 2:HLA Request Attribute Ownership Release(entity.attributes) 
 Federate 2->>Federation:HLA Attribute Ownership Release Denied(entity.attributes) 
 Federation->>Federate 1:HLA Attribute Ownership Unavailable(entity.attributes) 
-Federate 1->>Federation:Update(entity.AllocatedFederate) 
+Federate 1->>Federation:Response(requestId, FALSE)
 
  
 ``` 
  
 
 1. Use the HLA service `Attribute Ownership Acquisition` to request ownership of relevant attributes for the referenced entities. 
-3. The federate currently owning a requested attribute (Federate 2) receives a `Request Attribute Ownership Release` callback. 
-4. Deny the attribute release using the `Attribute Ownership Release Denied` HLA service. 
-5. The HLA callback `Attribute Ownership Release Denied` indicates an unsuccessful attribute ownership transfer. 
-6. Cancel the transfer and update the `AllocatedFederate` attribute. 
- 
- 
+2. The federate currently owning a requested attribute (Federate 2) receives a `Request Attribute Ownership Release` callback.
+3. Deny the attribute release using the `Attribute Ownership Release Denied` HLA service.
+4. The HLA callback `Attribute Ownership Release Denied` indicates an unsuccessful attribute ownership transfer.
+5. Cancel the transfer and send a `Response` interaction indicating failed.
 
 
 ## Object Classes
