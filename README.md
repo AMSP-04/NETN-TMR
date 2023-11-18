@@ -1,40 +1,26 @@
 # NETN-TMR
 
-NATO Education and Training Network (NETN) Transfer of Modelling Responsibilities (TMR) Module
 
-## Introduction
+|Version| Date| Dependencies|
+|---|---|---|
+|3.0|2023-11-18|NETN-BASE, NETN-ORG, NETN-ETR|
 
-In a federated distributed simulation, the participating systems (federates) collectively model the synthetic environment. Allocation of modelling responsibilities depends on individual federate capabilities, federation design agreements, and initial scenario conditions. The responsibility of updating an attribute for a specific simulated entity is allocated to at most one federate. However, during execution, the modelling responsibility and ownership may change. 
+> [Full Documentation](NETN-TMR.md)
 
-IEEE 1516 High Level Architecture (HLA) provides essential services for the divestiture and acquisition of attribute ownership. A negotiated and coordinated transfer of modelling responsibilities requires agreements between federates before the transfer of attribute ownership. 
+The NATO Education and Training Network Transfer of Modelling Responsibilities (NETN-TMR) FOM module provides a standard interface and pattern for transferring modelling responsibility between federates. It extends the HLA Ownership Management services by providing the means to trigger the transfer of modelling responsibility and to publish the assigned modelling responsibilities of object instances.
+        
+For example:
+            
+* Transfer modelling responsibility between virtual and constructive simulation systems  
+* Transfer modelling responsibility between high- and low-fidelity models  
+* Transfer modelling responsibility to allow backup, maintenance or load-balancing
 
-The NATO Education and Training Network Transfer of Modelling Responsibilities (NETN-TMR) FOM Module is a specification of how to perform a negotiated and coordinated transfer of attribute modelling responsibility between federates in a distributed simulation. 
+In a federated distributed simulation, the participating systems (federates) provide services that model the synthetic environment. Allocation of modelling responsibilities depends on individual federate capabilities, federation design agreements, and initial scenario conditions. The primary responsibility for modelling a simulated entity is allocated to, at most, one federate. However, during execution, the modelling responsibility and ownership of individual attributes may change.
 
-The specification is based on IEEE 1516 High Level Architecture (HLA) Object Model Template (OMT) and primarily intended to support interoperability in a federated simulation (federation) based on HLA. A Federation Object Model (FOM) Module specifies how data is represented and exchanged in the federation. The NETN-TMR FOM module is available as an XML file for use in HLA based federations.
-
-### Purpose
-
-The NETN-TMR FOM module provides a standard interface and protocol for conducting negotiated and coordinated transfer of attribute modelling responsibility between federates. It extends the HLA Ownership Management services by providing the means to 
-1. Negotiate the transfer of ownership. 
-2. Initiate ownership transfer using a Trigger federate.
-
-A transfer of modelling responsibility is performed during runtime, to dynamically change the responsibility to update specific attributes, to a more suitable federate.
-
-For example: 
-- Transfer from a Live to a Virtual or Constructive simulation
-- Transfer between Virtual and Constructive simulations
-- Transfer between hi- and low-fidelity models
-- Transfer to allow backup, maintenance or load-balancing
-- Transfer of certain attributes to functional models such as movement, damage assessment.
-
-### Scope
-
-NETN-TMR covers the following cases:
-
-* Negotiated acquisition where a federate request to receive the modelling responsibility 
-* Negotiated divestiture where a federate request another federate to take modelling responsibility
-* Acquisition without negotiation where a federate receives the modelling responsibility 
-* Cancellation of transfer
+NETN-TMR covers the following cases:            
+* Initialization with assigned modelling responsibilities for objects 
+* Explicit request to acquire modelling responsibility 
+* Triggering of modelling responsibility transfer by updating the allocation of responsibility attribute
 
 ## Licence
 
