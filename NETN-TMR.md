@@ -147,10 +147,6 @@ SMC_FederateControl-->HLAinteractionRoot
 AcquireModellingResponsibility-->SMC_FederateControl
 ```
 
-### SMC_FederateControl
-
-
-
 
 ### AcquireModellingResponsibility
 
