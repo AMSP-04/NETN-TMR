@@ -298,8 +298,8 @@ Federate 1-&gt;&gt;Federation:HLA Attribute Ownership Acquisition(entity.attribu
 Federation-&gt;&gt;Federate 2:HLA Request Attribute Ownership Release(entity.attributes) 
 Federate 2-&gt;&gt;Federation:HLA Attribute Ownership Release Denied(entity.attributes) 
 Federation-&gt;&gt;Federate 1:HLA Attribute Ownership Unavailable(entity.attributes) 
-
 Federate 1-&gt;&gt;Federation:Update(entity.AllocatedFederate) 
+Federate 1-&gt;&gt;Federation:SMC_Response(False) 
  
  
 ``` 
@@ -309,7 +309,8 @@ Federate 1-&gt;&gt;Federation:Update(entity.AllocatedFederate)
 3. The federate currently owning a requested attribute (Federate 2) receives a `Request Attribute Ownership Release` callback. 
 4. Deny the attribute release using the `Attribute Ownership Release Denied` HLA service. 
 5. The HLA callback `Attribute Ownership Release Denied` indicates an unsuccessful attribute ownership transfer. 
-6. Cancel the transfer and update the `AllocatedFederate` attribute.</semantics>
+6. Cancel the transfer and update the `AllocatedFederate` attribute.
+7. Send a `SMC_Response` interaction indicating the unsuccessful completion of the entity action. </semantics>
 
         </note>
     </notes>
