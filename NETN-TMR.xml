@@ -4,7 +4,7 @@
         <name>NETN-TMR</name>
         <type>FOM</type>
         <version>3.0</version>
-        <modificationDate>2023-11-18</modificationDate>
+        <modificationDate>2023-11-20</modificationDate>
         <securityClassification>Not Classified</securityClassification>
         <purpose>The NATO Education and Training Network Transfer of Modelling Responsibilities (NETN-TMR) FOM module provides a standard interface and pattern for transferring modelling responsibility between federates. It extends the HLA Ownership Management services by providing the means to trigger the transfer of modelling responsibility and to publish the assigned modelling responsibilities of object instances.
         

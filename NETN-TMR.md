@@ -2,7 +2,7 @@
 # NETN-TMR
 |Version| Date| Dependencies|
 |---|---|---|
-|3.0|2023-11-18|NETN-BASE, NETN-ORG, NETN-ETR|
+|3.0|2023-11-20|NETN-BASE, NETN-ORG, NETN-ETR|
 
 The NATO Education and Training Network Transfer of Modelling Responsibilities (NETN-TMR) FOM module provides a standard interface and pattern for transferring modelling responsibility between federates. It extends the HLA Ownership Management services by providing the means to trigger the transfer of modelling responsibility and to publish the assigned modelling responsibilities of object instances.
         
@@ -146,6 +146,10 @@ graph RL
 SMC_FederateControl-->HLAinteractionRoot
 AcquireModellingResponsibility-->SMC_FederateControl
 ```
+
+### SMC_FederateControl
+
+
 
 
 ### AcquireModellingResponsibility

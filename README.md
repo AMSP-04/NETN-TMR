@@ -3,13 +3,11 @@
 
 |Version| Date| Dependencies|
 |---|---|---|
-
-|3.0|2023-11-18|NETN-BASE, NETN-ORG, NETN-ETR|
+|3.0|2023-11-20|NETN-BASE, NETN-ORG, NETN-ETR|
 
 > [Full Documentation](NETN-TMR.md)
 
 The NATO Education and Training Network Transfer of Modelling Responsibilities (NETN-TMR) FOM module provides a standard interface and pattern for transferring modelling responsibility between federates. It extends the HLA Ownership Management services by providing the means to trigger the transfer of modelling responsibility and to publish the assigned modelling responsibilities of object instances.
-
         
 For example:
             
@@ -17,23 +15,21 @@ For example:
 * Transfer modelling responsibility between high- and low-fidelity models  
 * Transfer modelling responsibility to allow backup, maintenance or load-balancing
 
-
 In a federated distributed simulation, the participating systems (federates) provide services that model the synthetic environment. Allocation of modelling responsibilities depends on individual federate capabilities, federation design agreements, and initial scenario conditions. The primary responsibility for modelling a simulated entity is allocated to, at most, one federate. However, during execution, the modelling responsibility and ownership of individual attributes may change.
 
 NETN-TMR covers the following cases:            
 * Initialization with assigned modelling responsibilities for objects 
 * Explicit request to acquire modelling responsibility 
+
 * Triggering of modelling responsibility transfer by updating the allocation of responsibility attribute
 
-## Licence
+## License
 
-Copyright (C) 2020 NATO/OTAN.
-This work is licensed under a [Creative Commons Attribution-NoDerivatives 4.0 International License](LICENCE.md). 
+Copyright (C) 2020 NATO/OTAN. This work is licensed under a [Creative Commons Attribution-NoDerivatives 4.0 International License](LICENCE.md).
 
-The work includes the [NETN-TMR.xml](NETN-TMR.xml) FOM Module and documentation NETN-TMR.md.
+The work includes the NETN-TMR.xml FOM Module and documentation.
 
-Above licence gives you the right to use and redistribute the NETN FOM Module (XML file and Documentation) in its entirety without modification. You are also allowed to develop your FOM Modules (in separate XML files and separate documentation) that build-on/extends the NETN module by reference and including necessary scaffolding classes. You are NOT allowed to modify this FOM Module or its documentation without prior permission by the NATO Modelling and Simulation Group. 
-
+The licence gives you the right to use and redistribute the NETN FOM Module (XML file and Documentation) in its entirety without modification. You are also allowed to develop new FOM Modules (in separate XML files and separate documentation) that build on or extend the NETN module by referencing and including necessary scaffolding classes. You are NOT allowed to modify this FOM Module or its documentation without prior permission from the NATO Modelling and Simulation Group.
 
 ## Versions, updates and extensions
 
