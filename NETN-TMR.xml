@@ -70,8 +70,9 @@ For example:
         </reference>
         <reference>
             <type>Dependency</type>
-            <identification>NETN-ETR</identification>
+            <identification>NETN-SMC</identification>
         </reference>
+        
         <other>
 Copyright © 2023 by NATO/OTAN. All rights reserved.
 This work is licensed under a Creative Commons Attribution-NoDerivatives 4.0 International License.
@@ -100,10 +101,7 @@ Above license gives you the right to use and redistribute the NETN FOM Module (X
     <interactions>
         <interactionClass>
             <name>HLAinteractionRoot</name>
-            <sharing>Neither</sharing>
-            <transportation>HLAreliable</transportation>
-            <order>TimeStamp</order>
-            <semantics></semantics>
+            
             <interactionClass>
 
                 <name>SMC_FederateControl</name>

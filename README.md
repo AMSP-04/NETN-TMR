@@ -3,7 +3,7 @@
 
 |Version| Date| Dependencies|
 |---|---|---|
-|3.0|2023-11-20|NETN-BASE, NETN-ORG, NETN-ETR|
+|3.0|2023-11-20|NETN-BASE, NETN-ORG, NETN-SMC|
 
 > [Full Documentation](NETN-TMR.md)
 
