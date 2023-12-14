@@ -21,13 +21,13 @@ NETN-TMR covers the following cases:
 * Triggering of modelling responsibility transfer by updating the allocation of responsibility attribute
 
 ## Overview 
-
+ 
  
 NETN-TMR extends the HLA concept of object instance attribute ownership by associating primary modelling responsibility to objects in the federation. Only one federate has the primary modelling responsibility, but the responsibility can be transferred. Primary responsibility does not require ownership (HLA ownership) of all attributes of an object. 
  
-The federate with a primary responsibility shall respond to all NETN-SMC `SMC_EntityControl` actions directed to the entity.
+The federate with a primary responsibility shall respond to all NETN-SMC `SMC_EntityControl` actions directed to the entity. 
  
-The NETN-TMR modules extend the `HLAobjectRoot` object class with the attribute `AllocatedFederate`.
+The NETN-TMR modules extend the `HLAobjectRoot` object class with the attribute `AllocatedFederate`. 
  
 * The owner (HLA ownership) of the `AllocatedFederate` attribute is the federate with primary modelling responsibility for the object. 
 * An update of this attribute triggers the referenced federate to initiate a transfer to acquire primary modelling responsibility. 
@@ -38,17 +38,17 @@ The NETN-TMR modules extend the `HLAobjectRoot` object class with the attribute 
  
 An update of the `AllocatedFederate` attribute triggers the referenced federate to acquire the primary modelling responsibility. E.g. during scenario initialization, a federate may register all objects and then update the `AllocatedFederate` attributes to trigger a change in modelling responsibility. 
  
-
+ 
 ``` mermaid 
  
-sequenceDiagram 
+sequenceDiagram
 autonumber
 Federation->>Federate 1:Update entity.AllocatedFederate = federate 1 
 Federate 1->>Federation:Attribute Ownership Acquisition(entity.attributes) 
 Federation->>Federate 2:Request Attribute Ownership Release(entity.attributes) 
 Federate 2->>Federation:Attribute Ownership Divestiture If Wanted(entity.attributes) or <br> Attribute Ownership Release Denied(entity.attributes) 
 Federation->>Federate 1:Attribute Ownership Acquisition Notification(entity.attributes) or <br> Attribute Ownership Unavailable(entity.attributes) 
-
+ 
 Federate 1-->>Federation:Attribute Ownership Acquisition(entity.AllocatedFederate) 
 ``` 
  
@@ -65,12 +65,12 @@ Federate 1-->>Federation:Attribute Ownership Acquisition(entity.AllocatedFederat
 Sending an `AcquireModellingResponsibility` triggers the referenced federate to start acquiring modelling responsibility. 
  
 #### Successful Transfer 
-
+ 
 ``` mermaid 
  
-sequenceDiagram 
+sequenceDiagram
 autonumber
-
+ 
 Federation ->>Federate 1:AcquireModellingResponsibility(requestId, entity, federate 1) 
 Federate 1->>Federation:HLA Attribute Ownership Acquisition(entity.attributes) 
 Federation->>Federate 2:HLA Request Attribute Ownership Release(entity.attributes) 
@@ -101,7 +101,7 @@ participant Federate 1
 participant Federate 2 
 autonumber
  
-
+ 
 Federate 1->>Federation:HLA Attribute Ownership Acquisition(entity.attributes) 
 Federation->>Federate 2:HLA Request Attribute Ownership Release(entity.attributes) 
 Federate 2->>Federation:HLA Attribute Ownership Release Denied(entity.attributes) 
@@ -117,8 +117,8 @@ Federate 1->>Federation:SMC_Response(False)
 3. The federate currently owning a requested attribute (Federate 2) receives a `Request Attribute Ownership Release` callback. 
 4. Deny the attribute release using the `Attribute Ownership Release Denied` HLA service. 
 5. The HLA callback `Attribute Ownership Release Denied` indicates an unsuccessful attribute ownership transfer. 
-6. Cancel the transfer and update the `AllocatedFederate` attribute.
-7. Send a `SMC_Response` interaction indicating the unsuccessful completion of the entity action. 
+6. Cancel the transfer and update the `AllocatedFederate` attribute. 
+7. Send a `SMC_Response` interaction indicating the unsuccessful completion of the entity action.
 
 
 ## Object Classes

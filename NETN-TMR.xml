@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <objectModel xsi:schemaLocation="http://standards.ieee.org/IEEE1516-2010 http://standards.ieee.org/downloads/1516/1516.2-2010/IEEE1516-DIF-2010.xsd" xmlns="http://standards.ieee.org/IEEE1516-2010" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <modelIdentification notes="netn-tmr_4">
+    <modelIdentification notes="netn-tmr_overview">
         <name>NETN-TMR</name>
         <type>FOM</type>
         <version>3.0</version>
@@ -14,16 +14,15 @@ For example:
 * Transfer modelling responsibility between high- and low-fidelity models  
 * Transfer modelling responsibility to allow backup, maintenance or load-balancing</purpose>
         <applicationDomain>Training</applicationDomain>
-
         <description>In a federated distributed simulation, the participating systems (federates) provide services that model the synthetic environment. Allocation of modelling responsibilities depends on individual federate capabilities, federation design agreements, and initial scenario conditions. The primary responsibility for modelling a simulated entity is allocated to, at most, one federate. However, during execution, the modelling responsibility and ownership of individual attributes may change.</description>
         <useLimitation>NETN-TMR covers the following cases:            
 * Initialization with assigned modelling responsibilities for objects 
 * Explicit request to acquire modelling responsibility 
 
 * Triggering of modelling responsibility transfer by updating the allocation of responsibility attribute</useLimitation>
-        <useHistory notes="netn-tmr_1">v1.1 - Released version part of NETN FOM v2.0 in AMSP-04 Ed A.</useHistory>
-        <useHistory notes="netn-tmr_2">v2.0 - Released version part of NETN FOM v3.0 in AMSP-04 Ed B.</useHistory>
-        <useHistory notes="netn-tmr_3">v3.0 - Released version part of NETN FOM v4.0 in AMSP-04 Ed C.</useHistory>
+        <useHistory notes="netn-tmr_changelog_1">v1.1 - Released version part of NETN FOM v2.0 in AMSP-04 Ed A.</useHistory>
+        <useHistory notes="netn-tmr_changelog_2">v2.0 - Released version part of NETN FOM v3.0 in AMSP-04 Ed B.</useHistory>
+        <useHistory notes="netn-tmr_changelog_3">v3.0 - Released version part of NETN FOM v4.0 in AMSP-04 Ed C.</useHistory>
         <poc>
             <pocType>Release authority</pocType>
             <pocName>NATO Modelling and Simulation Group</pocName>
@@ -72,7 +71,6 @@ For example:
             <type>Dependency</type>
             <identification>NETN-SMC</identification>
         </reference>
-        
         <other>
 Copyright © 2023 by NATO/OTAN. All rights reserved.
 This work is licensed under a Creative Commons Attribution-NoDerivatives 4.0 International License.
@@ -101,9 +99,7 @@ Above license gives you the right to use and redistribute the NETN FOM Module (X
     <interactions>
         <interactionClass>
             <name>HLAinteractionRoot</name>
-            
             <interactionClass>
-
                 <name>SMC_FederateControl</name>
                 <interactionClass>
                     <name>AcquireModellingResponsibility</name>
@@ -115,13 +111,11 @@ Above license gives you the right to use and redistribute the NETN FOM Module (X
                         <name>Entity</name>
                         <dataType>UUID</dataType>
                         <semantics>Required: Reference to the object which is to be transferred.</semantics>
-
                     </parameter>
                 </interactionClass>
             </interactionClass>
         </interactionClass>
     </interactions>
-
     <dataTypes>
         <enumeratedDataTypes>
             <enumeratedData>
@@ -135,10 +129,9 @@ Above license gives you the right to use and redistribute the NETN FOM Module (X
             </enumeratedData>
         </enumeratedDataTypes>
     </dataTypes>
-
     <notes>
         <note>
-            <label>netn-tmr_1</label>
+            <label>netn-tmr_changelog_1</label>
             <semantics>v1.0.1 XML Schema Reference Changed 
 v1.0.2 - Spelling correction at enumerations 
 v1.0.3 - Adding AttributeValues 
@@ -153,7 +146,7 @@ v1.1.2 - Rename of enumeration values (AttributeSetTooRestricted, AttributeSetTo
 v1.1.3 - Rename of enumeration value (FederateTooBusy).</semantics>
         </note>
         <note>
-            <label>netn-tmr_2</label>
+            <label>netn-tmr_changelog_2</label>
             <semantics>* Added `modelIdentification` `useLimitation` to reflect Scope of FOM Module 
 * Added `modelIdentification` `glyph` 
 * Added parameter `ResponseFederate` to interaction class `TMR_RequestTransferModellingResponsibility` 
@@ -195,7 +188,7 @@ v1.1.3 - Rename of enumeration value (FederateTooBusy).</semantics>
 * Removed FixedRecordDatatype `AttributeValueStruct`</semantics>
         </note>
         <note>
-            <label>netn-tmr_3</label>
+            <label>netn-tmr_changelog_3</label>
             <semantics>* Removed All Interaction Classes 
 * Removed All Datatypes 
  
@@ -209,15 +202,15 @@ v1.1.3 - Rename of enumeration value (FederateTooBusy).</semantics>
 * Added `HLAinteractionRoot` parameter `FederateApplication`</semantics>
         </note>
         <note>
-            <label>netn-tmr_4</label>
+            <label>netn-tmr_overview</label>
             <semantics>## Overview 
-
+ 
  
 NETN-TMR extends the HLA concept of object instance attribute ownership by associating primary modelling responsibility to objects in the federation. Only one federate has the primary modelling responsibility, but the responsibility can be transferred. Primary responsibility does not require ownership (HLA ownership) of all attributes of an object. 
  
-The federate with a primary responsibility shall respond to all NETN-SMC `SMC_EntityControl` actions directed to the entity.
+The federate with a primary responsibility shall respond to all NETN-SMC `SMC_EntityControl` actions directed to the entity. 
  
-The NETN-TMR modules extend the `HLAobjectRoot` object class with the attribute `AllocatedFederate`.
+The NETN-TMR modules extend the `HLAobjectRoot` object class with the attribute `AllocatedFederate`. 
  
 * The owner (HLA ownership) of the `AllocatedFederate` attribute is the federate with primary modelling responsibility for the object. 
 * An update of this attribute triggers the referenced federate to initiate a transfer to acquire primary modelling responsibility. 
@@ -228,17 +221,17 @@ The NETN-TMR modules extend the `HLAobjectRoot` object class with the attribute 
  
 An update of the `AllocatedFederate` attribute triggers the referenced federate to acquire the primary modelling responsibility. E.g. during scenario initialization, a federate may register all objects and then update the `AllocatedFederate` attributes to trigger a change in modelling responsibility. 
  
-
+ 
 ``` mermaid 
  
-sequenceDiagram 
+sequenceDiagram
 autonumber
 Federation-&gt;&gt;Federate 1:Update entity.AllocatedFederate = federate 1 
 Federate 1-&gt;&gt;Federation:Attribute Ownership Acquisition(entity.attributes) 
 Federation-&gt;&gt;Federate 2:Request Attribute Ownership Release(entity.attributes) 
 Federate 2-&gt;&gt;Federation:Attribute Ownership Divestiture If Wanted(entity.attributes) or &lt;br&gt; Attribute Ownership Release Denied(entity.attributes) 
 Federation-&gt;&gt;Federate 1:Attribute Ownership Acquisition Notification(entity.attributes) or &lt;br&gt; Attribute Ownership Unavailable(entity.attributes) 
-
+ 
 Federate 1--&gt;&gt;Federation:Attribute Ownership Acquisition(entity.AllocatedFederate) 
 ``` 
  
@@ -255,12 +248,12 @@ Federate 1--&gt;&gt;Federation:Attribute Ownership Acquisition(entity.AllocatedF
 Sending an `AcquireModellingResponsibility` triggers the referenced federate to start acquiring modelling responsibility. 
  
 #### Successful Transfer 
-
+ 
 ``` mermaid 
  
-sequenceDiagram 
+sequenceDiagram
 autonumber
-
+ 
 Federation -&gt;&gt;Federate 1:AcquireModellingResponsibility(requestId, entity, federate 1) 
 Federate 1-&gt;&gt;Federation:HLA Attribute Ownership Acquisition(entity.attributes) 
 Federation-&gt;&gt;Federate 2:HLA Request Attribute Ownership Release(entity.attributes) 
@@ -291,7 +284,7 @@ participant Federate 1
 participant Federate 2 
 autonumber
  
-
+ 
 Federate 1-&gt;&gt;Federation:HLA Attribute Ownership Acquisition(entity.attributes) 
 Federation-&gt;&gt;Federate 2:HLA Request Attribute Ownership Release(entity.attributes) 
 Federate 2-&gt;&gt;Federation:HLA Attribute Ownership Release Denied(entity.attributes) 
@@ -307,9 +300,8 @@ Federate 1-&gt;&gt;Federation:SMC_Response(False)
 3. The federate currently owning a requested attribute (Federate 2) receives a `Request Attribute Ownership Release` callback. 
 4. Deny the attribute release using the `Attribute Ownership Release Denied` HLA service. 
 5. The HLA callback `Attribute Ownership Release Denied` indicates an unsuccessful attribute ownership transfer. 
-6. Cancel the transfer and update the `AllocatedFederate` attribute.
-7. Send a `SMC_Response` interaction indicating the unsuccessful completion of the entity action. </semantics>
-
+6. Cancel the transfer and update the `AllocatedFederate` attribute. 
+7. Send a `SMC_Response` interaction indicating the unsuccessful completion of the entity action.</semantics>
         </note>
     </notes>
 </objectModel>
