@@ -121,7 +121,7 @@ Above license gives you the right to use and redistribute the NETN FOM Module (X
             <enumeratedData>
                 <name>FederateControlActionEnum</name>
                 <representation>HLAinteger32BE</representation>
-                <semantics>SMC Control action enumeration.</semantics>
+                <semantics>Enumeration of Federate Control Actions. The datatype is expected to be extended in specific modules defining additional actions.</semantics>
                 <enumerator>
                     <name>TransferModellingResponsibility</name>
                     <value>10</value>
@@ -224,8 +224,8 @@ An update of the `AllocatedFederate` attribute triggers the referenced federate 
  
 ``` mermaid 
  
-sequenceDiagram
-autonumber
+sequenceDiagram 
+autonumber 
 Federation-&gt;&gt;Federate 1:Update entity.AllocatedFederate = federate 1 
 Federate 1-&gt;&gt;Federation:Attribute Ownership Acquisition(entity.attributes) 
 Federation-&gt;&gt;Federate 2:Request Attribute Ownership Release(entity.attributes) 
@@ -251,8 +251,8 @@ Sending an `AcquireModellingResponsibility` triggers the referenced federate to 
  
 ``` mermaid 
  
-sequenceDiagram
-autonumber
+sequenceDiagram 
+autonumber 
  
 Federation -&gt;&gt;Federate 1:AcquireModellingResponsibility(requestId, entity, federate 1) 
 Federate 1-&gt;&gt;Federation:HLA Attribute Ownership Acquisition(entity.attributes) 
@@ -278,11 +278,11 @@ Federate 1-&gt;&gt;Federation:SMC_Response(requestId, TRUE)
 If a ownership release of a required attribute is denied, the transfer is cancelled and the acquiring federate shall update the `AllocatedFederate` attribute to represent the federate with primary modelling responsibility. 
  
 ``` mermaid 
-sequenceDiagram
+sequenceDiagram 
 participant Federation 
 participant Federate 1 
 participant Federate 2 
-autonumber
+autonumber 
  
  
 Federate 1-&gt;&gt;Federation:HLA Attribute Ownership Acquisition(entity.attributes) 
