@@ -3,11 +3,11 @@
 
 |Version| Date| Dependencies|
 |---|---|---|
-|3.0|2024-03-07|NETN-BASE, NETN-ORG, NETN-SMC|
+|3.0|2024-03-10|NETN-BASE, NETN-ORG, NETN-SMC|
 
 > [Full Documentation](NETN-TMR.md)
 
-The NATO Education and Training Network Transfer of Modelling Responsibilities (NETN-TMR) module provides a standard interface and pattern for transferring modelling responsibility between federates. It extends the HLA Ownership Management services by providing the means to trigger the transfer of modelling responsibility and to publish the assigned modelling responsibilities of object instances.
+The NATO Education and Training Network Transfer of Modelling Responsibilities (NETN-TMR) module provides a standard interface and pattern for transferring modelling responsibility between federates. It extends the HLA Ownership Management services by providing the means to trigger modelling responsibility transfer and publish the assigned modelling responsibilities of object instances.
         
 For example:
             
@@ -20,7 +20,7 @@ In a federated distributed simulation, the participating systems (federates) pro
 NETN-TMR covers the following cases:            
 * Initialization with assigned modelling responsibilities for objects. 
 * Explicit request to acquire modelling responsibility.
-* Triggering of modelling responsibility transfer by updating the allocation of responsibility attribute.
+* Triggering modelling responsibility transfer by updating the allocation of responsibility attribute.
 
 ## License
 
