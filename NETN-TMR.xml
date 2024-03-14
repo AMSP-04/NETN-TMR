@@ -4,22 +4,21 @@
         <name>NETN-TMR</name>
         <type>FOM</type>
         <version>3.0</version>
-        <modificationDate>2023-11-20</modificationDate>
+        <modificationDate>2024-03-10</modificationDate>
         <securityClassification>Not Classified</securityClassification>
-        <purpose>The NATO Education and Training Network Transfer of Modelling Responsibilities (NETN-TMR) FOM module provides a standard interface and pattern for transferring modelling responsibility between federates. It extends the HLA Ownership Management services by providing the means to trigger the transfer of modelling responsibility and to publish the assigned modelling responsibilities of object instances.
+        <purpose>The NATO Education and Training Network Transfer of Modelling Responsibilities (NETN-TMR) module provides a standard interface and pattern for transferring modelling responsibility between federates. It extends the HLA Ownership Management services by providing the means to trigger modelling responsibility transfer and publish the assigned modelling responsibilities of object instances.
         
 For example:
             
-* Transfer modelling responsibility between virtual and constructive simulation systems  
-* Transfer modelling responsibility between high- and low-fidelity models  
-* Transfer modelling responsibility to allow backup, maintenance or load-balancing</purpose>
+* Transfer modelling responsibility between virtual and constructive simulation systems.  
+* Transfer modelling responsibility between high- and low-fidelity models.
+* Transfer modelling responsibility to allow backup, maintenance or load-balancing.</purpose>
         <applicationDomain>Training</applicationDomain>
         <description>In a federated distributed simulation, the participating systems (federates) provide services that model the synthetic environment. Allocation of modelling responsibilities depends on individual federate capabilities, federation design agreements, and initial scenario conditions. The primary responsibility for modelling a simulated entity is allocated to, at most, one federate. However, during execution, the modelling responsibility and ownership of individual attributes may change.</description>
         <useLimitation>NETN-TMR covers the following cases:            
-* Initialization with assigned modelling responsibilities for objects 
-* Explicit request to acquire modelling responsibility 
-
-* Triggering of modelling responsibility transfer by updating the allocation of responsibility attribute</useLimitation>
+* Initialization with assigned modelling responsibilities for objects. 
+* Explicit request to acquire modelling responsibility.
+* Triggering modelling responsibility transfer by updating the allocation of responsibility attribute.</useLimitation>
         <useHistory notes="netn-tmr_changelog_1">v1.1 - Released version part of NETN FOM v2.0 in AMSP-04 Ed A.</useHistory>
         <useHistory notes="netn-tmr_changelog_2">v2.0 - Released version part of NETN FOM v3.0 in AMSP-04 Ed B.</useHistory>
         <useHistory notes="netn-tmr_changelog_3">v3.0 - Released version part of NETN FOM v4.0 in AMSP-04 Ed C.</useHistory>
@@ -121,7 +120,7 @@ Above license gives you the right to use and redistribute the NETN FOM Module (X
             <enumeratedData>
                 <name>FederateControlActionEnum</name>
                 <representation>HLAinteger32BE</representation>
-                <semantics>SMC Control action enumeration.</semantics>
+                <semantics>Enumeration of Federate Control Actions. The datatype is expected to be extended in specific modules defining additional actions.</semantics>
                 <enumerator>
                     <name>TransferModellingResponsibility</name>
                     <value>10</value>
@@ -208,23 +207,46 @@ v1.1.3 - Rename of enumeration value (FederateTooBusy).</semantics>
  
 NETN-TMR extends the HLA concept of object instance attribute ownership by associating primary modelling responsibility to objects in the federation. Only one federate has the primary modelling responsibility, but the responsibility can be transferred. Primary responsibility does not require ownership (HLA ownership) of all attributes of an object. 
  
-The federate with a primary responsibility shall respond to all NETN-SMC `SMC_EntityControl` actions directed to the entity. 
- 
+The federate with a primary responsibility shall respond to all NETN-SMC `SMC_EntityControl` actions directed to the entity. This also implies that the same federate normally publishes the `BaseEntity` attribute `SupportedActions`.
+
+## Modelling Responsibility
+
 The NETN-TMR modules extend the `HLAobjectRoot` object class with the attribute `AllocatedFederate`. 
+
+```mermaid
+classDiagram 
+direction LR
+
+HLAobjectRoot : AllocatedFederate
+HLAobjectRoot : UniqueId(NETN-BASE)
+```
  
-* The owner (HLA ownership) of the `AllocatedFederate` attribute is the federate with primary modelling responsibility for the object. 
-* An update of this attribute triggers the referenced federate to initiate a transfer to acquire primary modelling responsibility. 
-* Sending an `AcquireModellingResponsibility` interaction triggers the referenced federate to initiate a transfer. If successful, the acquiring federate owns (HLA ownership) the `AllocatedFederate` attribute and updates its value to the federate name. 
-* Transfer of primary modelling responsibility is impossible if no owner of the `AllocatedFederate` attribute exists. 
+The owner (HLA ownership) of the `AllocatedFederate` attribute is the federate with primary modelling responsibility for the object. An update of this attribute triggers the referenced federate to initiate a transfer to acquire primary modelling responsibility. 
+
+Sending an `AcquireModellingResponsibility` interaction triggers the referenced federate to initiate a transfer. If successful, the acquiring federate owns (HLA ownership) the `AllocatedFederate` attribute and updates its value to the federate name. 
+
+
+```mermaid
+classDiagram 
+direction LR
+
+HLAinteractionRoot &lt;|-- SMC_FederateControl
+HLAinteractionRoot : UniqueId(NETN-BASE)
+SMC_FederateControl &lt;|-- AcquireModellingResponsibility
+SMC_FederateControl : Federate(NETN-SMC)
+AcquireModellingResponsibility : Entity
+```
+
+Transfer of primary modelling responsibility is impossible if no owner of the `AllocatedFederate` attribute exists. 
  
-### AllocatedFederate attribute update 
+## Attribute triggered Transfer
  
 An update of the `AllocatedFederate` attribute triggers the referenced federate to acquire the primary modelling responsibility. E.g. during scenario initialization, a federate may register all objects and then update the `AllocatedFederate` attributes to trigger a change in modelling responsibility. 
  
  
 ``` mermaid 
  
-sequenceDiagram
+sequenceDiagram 
 autonumber
 Federation-&gt;&gt;Federate 1:Update entity.AllocatedFederate = federate 1 
 Federate 1-&gt;&gt;Federation:Attribute Ownership Acquisition(entity.attributes) 
@@ -243,15 +265,14 @@ Federate 1--&gt;&gt;Federation:Attribute Ownership Acquisition(entity.AllocatedF
 6. Acquire the ownership of the `AllocatedFederate` attribute to complete the transfer of modelling responsibility. 
  
  
-### AcquireModellingResponsibility Interaction 
+## Request Transfer
  
-Sending an `AcquireModellingResponsibility` triggers the referenced federate to start acquiring modelling responsibility. 
- 
-#### Successful Transfer 
+Sending an `AcquireModellingResponsibility` requests the referenced federate to start acquiring modelling responsibility. 
+
  
 ``` mermaid 
  
-sequenceDiagram
+sequenceDiagram 
 autonumber
  
 Federation -&gt;&gt;Federate 1:AcquireModellingResponsibility(requestId, entity, federate 1) 
@@ -265,25 +286,25 @@ Federate 1-&gt;&gt;Federation:SMC_Response(requestId, TRUE)
  
 ``` 
  
-1. Send a `AcquireModellingResponsibility` interaction with reference to the entity and the acquiring federate (Federate 1). 
+1. Send an `AcquireModellingResponsibility` interaction with references to the entity and the acquiring federate (Federate 1). 
 2. If required, use the HLA service `Attribute Ownership Acquisition` to request ownership of relevant attributes for the referenced entities. 
 3. The federate currently owning a requested attribute (Federate 2) receives a `Request Attribute Ownership Release` callback. 
 4.  Release the attribute using the `Attribute Ownership Divestiture If Wanted` HLA service. 
 5. The HLA callback `Attribute Ownership Acquisition Notification` indicates a successful attribute ownership transfer. 
 6. After a successful transfer, update the `FederateApplication` attribute of the transferred entities to reference the new federate application that received the modelling responsibility. 
-7. Send a `SMC_Response` interaction indicating the successful completion of the entity action. 
+7. Send an `SMC_Response` interaction indicating the successful completion of the entity action. 
  
-#### Unsuccessful Transfer 
+## Unsuccessful Transfer 
  
-If a ownership release of a required attribute is denied, the transfer is cancelled and the acquiring federate shall update the `AllocatedFederate` attribute to represent the federate with primary modelling responsibility. 
+If an ownership release of a required attribute is denied, the transfer is cancelled, and the acquiring federate shall update the `AllocatedFederate` attribute to represent the federate with primary modelling responsibility. 
  
 ``` mermaid 
 sequenceDiagram
+autonumber
+
 participant Federation 
 participant Federate 1 
 participant Federate 2 
-autonumber
- 
  
 Federate 1-&gt;&gt;Federation:HLA Attribute Ownership Acquisition(entity.attributes) 
 Federation-&gt;&gt;Federate 2:HLA Request Attribute Ownership Release(entity.attributes) 
@@ -301,7 +322,7 @@ Federate 1-&gt;&gt;Federation:SMC_Response(False)
 4. Deny the attribute release using the `Attribute Ownership Release Denied` HLA service. 
 5. The HLA callback `Attribute Ownership Release Denied` indicates an unsuccessful attribute ownership transfer. 
 6. Cancel the transfer and update the `AllocatedFederate` attribute. 
-7. Send a `SMC_Response` interaction indicating the unsuccessful completion of the entity action.</semantics>
+7. Send an `SMC_Response` interaction indicating the unsuccessful completion of the entity action.</semantics>
         </note>
     </notes>
 </objectModel>
